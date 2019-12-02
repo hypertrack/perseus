@@ -1,0 +1,19 @@
+.trip-info-modal {
+  z-index: 11;
+  display: none;
+  opacity: 0.5;
+  background-color: transparent;
+  max-height: 100vh;
+  max-width: 50vw;
+  overflow-y: scroll;
+  overflow-x: clip;
+  padding: 2rem;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.device-status-table th {
+  text-align: center;
+}
