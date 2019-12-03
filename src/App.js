@@ -8,14 +8,73 @@ import { mapUtils, hooks, classes, utils } from "./common";
 
 import "./App.css";
 
-const json = require("./template/3.json");
+const template = require("./template/3.json");
 
 const mapContainerId = "map-container";
 
+const plotLine = (mapRef, line) => {
+  if (mapRef.current.getLayer("route") || mapRef.current.getLayer("route1")) {
+    const newLayerId = mapRef.current.getLayer() ? "route1" : "route";
+    const oldLayerId = mapRef.current.getLayer("route") ? "route" : "route1";
+    mapRef.current.removeLayer(oldLayerId);
+    mapRef.current.removeSource(oldLayerId);
+    mapRef.current
+      .addLayer({
+        id: newLayerId,
+        type: "line",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: line
+          }
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        paint: {
+          "line-color": "#6f4cff",
+          "line-width": 8
+        }
+      })
+      .fitBounds(mapUtils.computeBounds(line.coordinates), {
+        padding: { top: 40, bottom: 40, left: 20, right: 20 }
+      });
+  } else {
+    mapRef.current
+      .addLayer({
+        id: "route",
+        type: "line",
+        source: {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: line
+          }
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        paint: {
+          "line-color": "#6f4cff",
+          "line-width": 8
+        }
+      })
+      .fitBounds(mapUtils.computeBounds(line.coordinates), {
+        padding: { top: 40, bottom: 40, left: 20, right: 20 }
+      });
+  }
+};
+
 function App() {
+  const [showTripModal, updateShowTripModal] = React.useState(false);
+  const [json, updateJson] = React.useState(template);
   const mapRef = hooks.useMap(mapContainerId);
   const popupRef = hooks.usePopup(mapRef);
-
   const line = new classes.Line(json.summary.locations);
 
   const markers = json.summary.markers.reduce(
@@ -33,32 +92,7 @@ function App() {
   // effect that maintains and plots polyline
   React.useEffect(() => {
     if (line instanceof classes.Line && mapRef && mapRef.current) {
-      mapRef.current.on("load", () => {
-        mapRef.current
-          .addLayer({
-            id: "route",
-            type: "line",
-            source: {
-              type: "geojson",
-              data: {
-                type: "Feature",
-                properties: {},
-                geometry: line
-              }
-            },
-            layout: {
-              "line-join": "round",
-              "line-cap": "round"
-            },
-            paint: {
-              "line-color": "#6f4cff",
-              "line-width": 8
-            }
-          })
-          .fitBounds(mapUtils.computeBounds(line.coordinates), {
-            padding: { top: 40, bottom: 40, left: 20, right: 20 }
-          });
-      });
+      mapRef.current.on("load", () => plotLine(mapRef, line));
     }
   }, [line, mapRef]);
 
@@ -165,10 +199,22 @@ function App() {
     }
   }, [deviceStatusMarkers, mapRef, popupRef]);
 
+  const handleJsonUpdate = json => {
+    updateJson(json);
+    const line = new classes.Line(json.summary.locations);
+    plotLine(mapRef, line);
+  };
+
   return (
     <div className="app-container">
       <div id={mapContainerId} />
-      <TripInfoModal trip={json} />
+      <TripInfoModal
+        trip={json}
+        showTripModal={showTripModal}
+        showModal={() => updateShowTripModal(true)}
+        hideModal={() => updateShowTripModal(false)}
+        updateJson={handleJsonUpdate}
+      />
     </div>
   );
 }
