@@ -81,6 +81,7 @@ const TripInfoModal = ({
               className="file-input"
               onInputChange={handleFileUpload}
               value={filename}
+              inputProps={{ accept: ".json" }}
             />
             <Button onClick={handleCloseModal}>Close</Button>
             <Button intent={Intent.PRIMARY} onClick={handleUpdateJson}>
