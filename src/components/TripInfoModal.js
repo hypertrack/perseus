@@ -1,5 +1,12 @@
 import React from "react";
-import { TextArea, Dialog, Button, Classes, Intent } from "@blueprintjs/core";
+import {
+  TextArea,
+  Dialog,
+  Button,
+  Classes,
+  Intent,
+  FileInput
+} from "@blueprintjs/core";
 
 import "./component.css";
 
@@ -13,6 +20,7 @@ const TripInfoModal = ({
   const [userJson, updateUserJson] = React.useState(
     JSON.stringify(trip, null, "\n")
   );
+  const [filename, updateFilename] = React.useState("");
 
   const handleUpdateJson = e => {
     try {
@@ -27,6 +35,19 @@ const TripInfoModal = ({
   const handleCloseModal = e => {
     updateUserJson(JSON.stringify(trip, null, "\n"));
     hideModal();
+  };
+
+  const handleFileUpload = event => {
+    event && event.preventDefault();
+    const fileReader = new FileReader();
+    const file = event.target.files[0];
+    updateFilename(file.name);
+    fileReader.readAsText(file, "UTF-8");
+    fileReader.onload = onloadEvent => {
+      const derivedFileValue = onloadEvent.target.result;
+      updateJson(JSON.parse(derivedFileValue));
+      hideModal();
+    };
   };
 
   return (
@@ -54,6 +75,13 @@ const TripInfoModal = ({
         </div>
         <div className={Classes.DIALOG_FOOTER}>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            <FileInput
+              text={"Click to upload"}
+              buttonText={"Browse"}
+              className="file-input"
+              onInputChange={handleFileUpload}
+              value={filename}
+            />
             <Button onClick={handleCloseModal}>Close</Button>
             <Button intent={Intent.PRIMARY} onClick={handleUpdateJson}>
               Update

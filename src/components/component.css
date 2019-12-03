@@ -28,3 +28,7 @@
 .device-status-table th {
   text-align: center;
 }
+
+.file-input {
+  margin-right: auto;
+}
