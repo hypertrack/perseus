@@ -4,22 +4,21 @@
   border: 1px solid #888;
   outline: none;
   overflow-y: scroll;
-  margin: auto;
-  height: 80%;
-  width: 100%;
+  height: 100% !important;
+  width: 100% !important;
+  resize: none;
+  outline: none !important;
 }
 
-.overlay {
-  margin: auto;
-  position: relative;
-  overflow-y: scroll;
-  background: white;
-  height: 100vh;
-  width: 100vw;
+.dialog {
+  height: 95vh !important;
+  width: 95vw !important;
 }
 
-.show-trip-button .hide {
-  display: none;
+.show-trip-button {
+  bottom: 0;
+  position: absolute;
+  margin: 0.25rem;
 }
 
 .capitalize {

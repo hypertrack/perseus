@@ -6,6 +6,8 @@ import DeviceStatusTable from "./components/DeviceStatusTable";
 
 import { mapUtils, hooks, classes, utils } from "./common";
 
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
 import "./App.css";
 
 const template = require("./template/3.json");

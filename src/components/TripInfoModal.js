@@ -1,5 +1,12 @@
 import React from "react";
-import { TextArea, Dialog, Button } from "@blueprintjs/core";
+import {
+  TextArea,
+  Dialog,
+  Button,
+  Classes,
+  Intent,
+  ButtonGroup
+} from "@blueprintjs/core";
 
 import "./component.css";
 
@@ -32,20 +39,34 @@ const TripInfoModal = ({
   return (
     <>
       <Button
-        className={`show-trip-button ${showTripModal ? "hide" : ""}`}
+        intent={Intent.SUCCESS}
+        className={"show-trip-button"}
         onClick={() => (showTripModal ? hideModal() : showModal())}
       >
-        Change JSON
+        Update JSON
       </Button>
-      <Dialog isOpen={showTripModal} className="overlay" onClose={hideModal}>
-        <TextArea
-          value={userJson}
-          disabled={false}
-          onChange={e => updateUserJson(e.target.value)}
-          className="user-summary-input"
-        />
-        <button onClick={handleUpdateJson}>Update JSON</button>
-        <button onClick={handleCloseModal}>Cancel</button>
+      <Dialog
+        isOpen={showTripModal}
+        title="Add your own JSON"
+        onClose={hideModal}
+        className="dialog"
+      >
+        <div className={Classes.DIALOG_BODY}>
+          <TextArea
+            value={userJson}
+            disabled={false}
+            onChange={e => updateUserJson(e.target.value)}
+            className="user-summary-input"
+          />
+        </div>
+        <div className={Classes.DIALOG_FOOTER}>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            <Button onClick={handleCloseModal}>Close</Button>
+            <Button intent={Intent.PRIMARY} onClick={handleUpdateJson}>
+              Update
+            </Button>
+          </div>
+        </div>
       </Dialog>
     </>
   );
