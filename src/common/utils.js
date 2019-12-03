@@ -62,6 +62,20 @@ const iconMap = {
 const getIcon = (deviceStatus, activity, defaultIcon) =>
   iconMap[activity] || defaultIcon || iconMap[deviceStatus];
 
+const markersByType = markers => type => {
+  debugger;
+  const allMarkers = markers.reduce(
+    (markers, currentMarker) => ({
+      ...markers,
+      [currentMarker.type]: markers[currentMarker.type]
+        ? [parseMarker(currentMarker), ...markers[currentMarker.type]]
+        : [parseMarker(currentMarker)]
+    }),
+    {}
+  );
+  return type && allMarkers[type] ? allMarkers[type] : allMarkers;
+};
+
 const secondsToHms = d => {
   d = Number(d);
   const h = Math.floor(d / 3600);
@@ -77,5 +91,6 @@ const secondsToHms = d => {
 export default {
   parseMarker,
   getIcon,
-  secondsToHms
+  secondsToHms,
+  markersByType
 };
