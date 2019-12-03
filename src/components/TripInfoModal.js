@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  TextArea,
-  Dialog,
-  Button,
-  Classes,
-  Intent,
-  ButtonGroup
-} from "@blueprintjs/core";
+import { TextArea, Dialog, Button, Classes, Intent } from "@blueprintjs/core";
 
 import "./component.css";
 
