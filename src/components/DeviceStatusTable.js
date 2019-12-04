@@ -32,43 +32,70 @@ const formatDate = timestamp =>
   ":" +
   timestamp.getSeconds();
 
-const DeviceStatusTable = ({
-  start,
-  end,
-  deviceStatus,
-  activity,
-  duration
-}) => (
+const rowMap = {
+  deviceStatusMarker: ({ start, end, deviceStatus, activity, duration }) => (
+    <tbody>
+      {start ? (
+        <tr className="capitalize">
+          <td>Start Time</td>
+          <td>{formatDate(new Date(start.timestamp))}</td>
+        </tr>
+      ) : null}
+      {end ? (
+        <tr className="capitalize">
+          <td>End Time</td>
+          <td>{formatDate(new Date(end.timestamp))}</td>
+        </tr>
+      ) : null}
+      {duration ? (
+        <tr>
+          <td>Duration</td>
+          <td>{utils.secondsToHms(duration)}</td>
+        </tr>
+      ) : null}
+      {activity ? (
+        <tr>
+          <td>Activity</td>
+          <td className="capitalize">{activity}</td>
+        </tr>
+      ) : null}
+    </tbody>
+  ),
+  locationMarker: ({ coordinates: [lat, lng], alt, recorded_at }) => (
+    <tbody>
+      <tr>
+        <td>Coordinates</td>
+        <td className="capitalize">
+          {lat} {lng}
+        </td>
+      </tr>
+      <tr>
+        <td>Altitude</td>
+        <td className="capitalize">{alt}</td>
+      </tr>
+      <tr>
+        <td>Recorded at</td>
+        <td className="capitalize">{formatDate(new Date(recorded_at))}</td>
+      </tr>
+    </tbody>
+  )
+};
+
+const headerMap = {
+  locationMarker: () => "location",
+  deviceStatusMarker: ({ deviceStatus }) => deviceStatus
+};
+
+const DeviceStatusTable = ({ type, ...props }) => (
   <table className="device-status-table">
-    <tr>
-      <th colSpan={2} className="capitalize">
-        {deviceStatus}
-      </th>
-    </tr>
-    {start ? (
-      <tr className="capitalize">
-        <td>Start Time</td>
-        <td>{formatDate(new Date(start.timestamp))}</td>
-      </tr>
-    ) : null}
-    {end ? (
-      <tr className="capitalize">
-        <td>End Time</td>
-        <td>{formatDate(new Date(end.timestamp))}</td>
-      </tr>
-    ) : null}
-    {duration ? (
+    <thead>
       <tr>
-        <td>Duration</td>
-        <td>{utils.secondsToHms(duration)}</td>
+        <th colSpan={2} className="capitalize">
+          {headerMap[type](props)}
+        </th>
       </tr>
-    ) : null}
-    {activity ? (
-      <tr>
-        <td>Activity</td>
-        <td className="capitalize">{activity}</td>
-      </tr>
-    ) : null}
+    </thead>
+    {rowMap[type](props)}
   </table>
 );
 

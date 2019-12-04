@@ -34,7 +34,7 @@ function App() {
     const { locations, markers } = json.summary;
     const line = new classes.Line(locations);
     const deviceStatusMarkers = utils.markersByType(markers)("device_status");
-    mapUtils.plotLine(mapRef, line);
+    mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
     mapUtils.plotMarkers(mapRef, popupRef, deviceStatusMarkers, getStatusTable);
   };
 
