@@ -39,7 +39,7 @@ function App() {
   };
 
   React.useEffect(() => {
-    if (loadDefault) window.history.replaceState({}, "", "loadDefault=false");
+    if (loadDefault) window.history.replaceState({}, "", "?loadDefault=false");
     else {
       const previousJSON = localStorage.getItem("previousJSON");
       const tripJSON = JSON.parse(previousJSON);
