@@ -23,7 +23,7 @@ const TripInfoModal = ({
   const [userJson, updateUserJson] = React.useState(
     JSON.stringify(trip, null, "\n")
   );
-  const [filename, updateFilename] = React.useState("");
+  const [filename, updateFilename] = React.useState(undefined);
   const [errors, updateErrors] = React.useState("");
 
   const validateInput = tripJSON => {
@@ -54,7 +54,7 @@ const TripInfoModal = ({
     event && event.preventDefault();
     const fileReader = new FileReader();
     const file = event.target.files[0];
-    updateFilename(file.name);
+    updateFilename(file && file.name ? file.name : undefined);
     fileReader.readAsText(file, "UTF-8");
     fileReader.onload = onloadEvent => {
       const derivedFileValue = onloadEvent.target.result;
@@ -65,6 +65,19 @@ const TripInfoModal = ({
         hideModal();
       }
     };
+  };
+
+  const handleBlurEvent = event => {
+    event && event.preventDefault();
+    const value = event.target.value;
+    if (value)
+      try {
+        const tripJSON = JSON.parse(value);
+        validateInput(tripJSON);
+      } catch (error) {
+        console.error(error);
+        updateErrors([error]);
+      }
   };
 
   return (
@@ -90,13 +103,14 @@ const TripInfoModal = ({
               onChange={e => updateUserJson(e.target.value)}
               className={"user-summary-input"}
               placeholder={"Paste trip_summary here"}
-              onBlur={e => validateInput(JSON.parse(e.target.value))}
+              onBlur={handleBlurEvent}
             />
             {errors && errors.length ? (
               <div className={"error-table-container"}>
                 <HTMLTable className={"error-table"} bordered>
                   <caption>
-                    There are {errors.length} issue
+                    There {errors.length > 1 ? "are" : "is an"}{" "}
+                    {errors.length > 1 ? errors.length : ""} issue
                     {errors.length > 1 ? "s" : ""}
                   </caption>
                   <thead>
@@ -125,11 +139,10 @@ const TripInfoModal = ({
         <div className={Classes.DIALOG_FOOTER}>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
             <FileInput
-              text={"Click to upload"}
+              text={filename}
               buttonText={"Browse"}
               className="file-input"
               onInputChange={handleFileUpload}
-              value={filename}
               inputProps={{ accept: ".json" }}
             />
             <Button
