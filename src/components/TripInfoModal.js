@@ -26,6 +26,12 @@ const TripInfoModal = ({
   const [filename, updateFilename] = React.useState(undefined);
   const [errors, updateErrors] = React.useState("");
 
+  React.useEffect(() => {
+    if (JSON.stringify(trip) !== JSON.stringify(userJson))
+      updateUserJson(JSON.stringify(trip, null, "\n"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trip]);
+
   const validateInput = tripJSON => {
     const validationErrors = utils.validateTripJSON(tripJSON);
     if (validationErrors && validationErrors.length)
