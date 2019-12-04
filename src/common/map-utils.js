@@ -13,14 +13,26 @@ const computeBounds = coordinates => {
   );
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable) => {
-  let newLayerId = "route";
-  if (mapRef.current.getLayer("route") || mapRef.current.getLayer("route1")) {
-    newLayerId = mapRef.current.getLayer("route") ? "route1" : "route";
-    const oldLayerId = mapRef.current.getLayer("route") ? "route" : "route1";
+const getNewLayerRemoveOldLayer = (mapRef, primitive) => {
+  let newLayerId = primitive;
+  if (
+    mapRef.current.getLayer(primitive) ||
+    mapRef.current.getLayer(`${primitive}1`)
+  ) {
+    newLayerId = mapRef.current.getLayer(primitive)
+      ? `${primitive}1`
+      : primitive;
+    const oldLayerId = mapRef.current.getLayer(primitive)
+      ? primitive
+      : `${primitive}1`;
     mapRef.current.removeLayer(oldLayerId);
     mapRef.current.removeSource(oldLayerId);
   }
+  return newLayerId;
+};
+
+const plotLine = (mapRef, popupRef, line, getStatusTable) => {
+  let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
   mapRef.current
     .addLayer({
       id: newLayerId,
@@ -46,20 +58,7 @@ const plotLine = (mapRef, popupRef, line, getStatusTable) => {
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 
-  newLayerId = "locationMarkers";
-  if (
-    mapRef.current.getLayer("locationMarkers") ||
-    mapRef.current.getLayer("locationMarkers1")
-  ) {
-    newLayerId = mapRef.current.getLayer("locationMarkers")
-      ? "locationMarkers1"
-      : "locationMarkers";
-    const oldLayerId = mapRef.current.getLayer("locationMarkers")
-      ? "locationMarkers"
-      : "locationMarkers1";
-    mapRef.current.removeLayer(oldLayerId);
-    mapRef.current.removeSource(oldLayerId);
-  }
+  newLayerId = getNewLayerRemoveOldLayer(mapRef, "locationMarkers");
   mapRef.current.addLayer({
     id: newLayerId,
     type: "symbol",
@@ -112,20 +111,7 @@ const plotLine = (mapRef, popupRef, line, getStatusTable) => {
 };
 
 const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
-  let newLayerId = "deviceStatusMarkers";
-  if (
-    mapRef.current.getLayer("deviceStatusMarkers") ||
-    mapRef.current.getLayer("deviceStatusMarkers1")
-  ) {
-    newLayerId = mapRef.current.getLayer("deviceStatusMarkers")
-      ? "deviceStatusMarkers1"
-      : "deviceStatusMarkers";
-    const oldLayerId = mapRef.current.getLayer("deviceStatusMarkers")
-      ? "deviceStatusMarkers"
-      : "deviceStatusMarkers1";
-    mapRef.current.removeLayer(oldLayerId);
-    mapRef.current.removeSource(oldLayerId);
-  }
+  const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
   mapRef.current.addLayer({
     id: newLayerId,
     type: "symbol",
