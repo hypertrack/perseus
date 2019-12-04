@@ -1,4 +1,9 @@
 import { classes } from "./";
+const trip_schema = require("./trip_schema.json");
+
+const Ajv = require("ajv");
+const ajv = new Ajv({ allErrors: true });
+const validate = ajv.compile(trip_schema);
 
 const parseGeofenceMarker = marker => {
   const { arrival, geofence } = marker;
@@ -63,7 +68,6 @@ const getIcon = (deviceStatus, activity, defaultIcon) =>
   iconMap[activity] || defaultIcon || iconMap[deviceStatus];
 
 const markersByType = markers => type => {
-  debugger;
   const allMarkers = markers.reduce(
     (markers, currentMarker) => ({
       ...markers,
@@ -88,9 +92,15 @@ const secondsToHms = d => {
   return hDisplay + mDisplay + sDisplay;
 };
 
+const validateTripJSON = trip => {
+  const valid = validate(trip);
+  return !valid ? validate.errors : false;
+};
+
 export default {
   parseMarker,
   getIcon,
   secondsToHms,
-  markersByType
+  markersByType,
+  validateTripJSON
 };

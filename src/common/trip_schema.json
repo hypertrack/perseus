@@ -1,0 +1,262 @@
+{
+  "properties": {
+    "trip_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "device_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string"
+    },
+    "views": {
+      "properties": {
+        "embed_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "share_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "analytics": {
+      "properties": {
+        "total_duration": {
+          "type": "number"
+        },
+        "active_count": {
+          "type": "number"
+        },
+        "active_duration": {
+          "type": "number"
+        },
+        "stop_count": {
+          "type": "number"
+        },
+        "stop_duration": {
+          "type": "number"
+        },
+        "active_distance": {
+          "type": "number"
+        },
+        "walk_count": {
+          "type": "number"
+        },
+        "walk_duration": {
+          "type": "number"
+        },
+        "walk_distance": {
+          "type": "number"
+        },
+        "drive_count": {
+          "type": "number"
+        },
+        "drive_duration": {
+          "type": "number"
+        },
+        "drive_distance": {
+          "type": "number"
+        },
+        "inactive_count": {
+          "type": "number"
+        },
+        "inactive_duration": {
+          "type": "number"
+        }
+      }
+    },
+    "summary": {
+      "properties": {
+        "distance": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "device_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "locations": {
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "maxItems": 4,
+                "minItems": 2,
+                "items": [
+                  {
+                    "type": "number",
+                    "minimum": -179.999999,
+                    "maximum": 179.999999
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -89.999999,
+                    "maximum": 89.999999
+                  },
+                  {
+                    "type": ["number", "null"],
+                    "minimum": -12262,
+                    "maximum": 11000
+                  },
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "markers": {
+          "type": "array",
+          "items": [
+            {
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "data": {
+                  "properties": {
+                    "activity": {
+                      "type": "string"
+                    },
+                    "duration": {
+                      "type": "number"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "start": {
+                      "properties": {
+                        "recorded_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "location": {
+                          "properties": {
+                            "recorded_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "geometry": {
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "coordinates": {
+                                  "type": "array",
+                                  "maxItems": 4,
+                                  "minItems": 2,
+                                  "items": [
+                                    {
+                                      "type": "number",
+                                      "minimum": -179.999999,
+                                      "maximum": 179.999999
+                                    },
+                                    {
+                                      "type": "number",
+                                      "minimum": -89.999999,
+                                      "maximum": 89.999999
+                                    },
+                                    {
+                                      "type": ["number", "null"],
+                                      "minimum": -12262,
+                                      "maximum": 11000
+                                    },
+                                    {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "end": {
+                      "properties": {
+                        "recorded_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "location": {
+                          "properties": {
+                            "recorded_at": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "geometry": {
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "coordinates": {
+                                  "type": "array",
+                                  "maxItems": 4,
+                                  "minItems": 2,
+                                  "items": [
+                                    {
+                                      "type": "number",
+                                      "minimum": -179.999999,
+                                      "maximum": 179.999999
+                                    },
+                                    {
+                                      "type": "number",
+                                      "minimum": -89.999999,
+                                      "maximum": 89.999999
+                                    },
+                                    {
+                                      "type": ["number", "null"],
+                                      "minimum": -12262,
+                                      "maximum": 11000
+                                    },
+                                    {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

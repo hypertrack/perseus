@@ -1,11 +1,51 @@
+.dialog-container {
+  display: flex;
+  height: 80vh !important;
+  overflow: hidden;
+}
+
+.error-table-container {
+  float: left;
+  flex: 1;
+  overflow-y: scroll;
+  margin: 0 10px;
+  padding: 0 10px;
+}
+
+.error-table {
+  font-family: "Courier New", Courier, monospace;
+  max-width: 100%;
+  width: 100%;
+  table-layout: fixed;
+}
+
+caption {
+  padding: 10px;
+  color: red;
+  font-weight: 600;
+}
+
+.error-table > thead {
+  max-width: 100%;
+}
+
+.error-table > th {
+  padding: 10px;
+}
+
+.table-content {
+  padding: 10px;
+  word-break: break-all;
+}
+
 .user-summary-input {
+  flex: 1;
+  float: left;
   padding: 1rem;
   font-family: "Courier New", Courier, monospace;
   border: 1px solid #888;
   outline: none;
   overflow-y: scroll;
-  height: 100% !important;
-  width: 100% !important;
   resize: none;
   outline: none !important;
 }
@@ -13,6 +53,7 @@
 .dialog {
   height: 95vh !important;
   width: 95vw !important;
+  overflow: hidden;
 }
 
 .show-trip-button {
