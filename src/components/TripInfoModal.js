@@ -117,7 +117,6 @@ const TripInfoModal = ({
                       </tr>
                     ))}
                   </tbody>
-                  {JSON.stringify(errors)}
                 </HTMLTable>
               </div>
             ) : null}
