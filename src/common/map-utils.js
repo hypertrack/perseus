@@ -31,6 +31,23 @@ const getNewLayerRemoveOldLayer = (mapRef, primitive) => {
   return newLayerId;
 };
 
+const mouseEnterCallback = (e, mapRef, popupRef) => {
+  mapRef.current.getCanvas().style.cursor = "pointer";
+  let coordinates = e.features[0].geometry.coordinates.slice();
+  const description = e.features[0].properties.description;
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  popupRef.current
+    .setLngLat(coordinates)
+    .setHTML(description)
+    .addTo(mapRef.current);
+};
+
+const mouseLeaveCallback = (mapRef, popupRef) => {
+  mapRef.current.getCanvas().style.cursor = "";
+  popupRef.current.remove();
+};
+
 const plotLine = (mapRef, popupRef, line, getStatusTable) => {
   let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
   mapRef.current
@@ -92,22 +109,13 @@ const plotLine = (mapRef, popupRef, line, getStatusTable) => {
     }
   });
 
-  mapRef.current.on("mouseenter", newLayerId, e => {
-    mapRef.current.getCanvas().style.cursor = "pointer";
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var description = e.features[0].properties.description;
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    popupRef.current
-      .setLngLat(coordinates)
-      .setHTML(description)
-      .addTo(mapRef.current);
-  });
+  mapRef.current.on("mouseenter", newLayerId, event =>
+    mouseEnterCallback(event, mapRef, popupRef)
+  );
 
-  mapRef.current.on("mouseleave", newLayerId, function() {
-    mapRef.current.getCanvas().style.cursor = "";
-    popupRef.current.remove();
-  });
+  mapRef.current.on("mouseleave", newLayerId, () =>
+    mouseLeaveCallback(mapRef, popupRef)
+  );
 };
 
 const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
@@ -191,22 +199,13 @@ const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
     }
   });
 
-  mapRef.current.on("mouseenter", newLayerId, e => {
-    mapRef.current.getCanvas().style.cursor = "pointer";
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var description = e.features[0].properties.description;
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    popupRef.current
-      .setLngLat(coordinates)
-      .setHTML(description)
-      .addTo(mapRef.current);
-  });
+  mapRef.current.on("mouseenter", newLayerId, event =>
+    mouseEnterCallback(event, mapRef, popupRef)
+  );
 
-  mapRef.current.on("mouseleave", newLayerId, function() {
-    mapRef.current.getCanvas().style.cursor = "";
-    popupRef.current.remove();
-  });
+  mapRef.current.on("mouseleave", newLayerId, () =>
+    mouseLeaveCallback(mapRef, popupRef)
+  );
 };
 
 export default {
