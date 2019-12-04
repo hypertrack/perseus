@@ -30,7 +30,7 @@ function App() {
   const handleJsonUpdate = (json, fromLocalstorage) => {
     updateJson(json);
     if (!fromLocalstorage)
-      localStorage.setItem("previousJSON", JSON.stringify(json));
+      localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
     const { locations, markers } = json.summary;
     const line = new classes.Line(locations);
     const deviceStatusMarkers = utils.markersByType(markers)("device_status");

@@ -21,14 +21,14 @@ const TripInfoModal = ({
   showModal
 }) => {
   const [userJson, updateUserJson] = React.useState(
-    JSON.stringify(trip, null, "\n")
+    JSON.stringify(trip, null, "\t")
   );
   const [filename, updateFilename] = React.useState(undefined);
   const [errors, updateErrors] = React.useState("");
 
   React.useEffect(() => {
     if (JSON.stringify(trip) !== JSON.stringify(userJson))
-      updateUserJson(JSON.stringify(trip, null, "\n"));
+      updateUserJson(JSON.stringify(trip, null, "\t"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trip]);
 
@@ -52,7 +52,7 @@ const TripInfoModal = ({
   };
 
   const handleCloseModal = e => {
-    updateUserJson(JSON.stringify(trip, null, "\n"));
+    updateUserJson(JSON.stringify(trip, null, "\t"));
     hideModal();
   };
 
