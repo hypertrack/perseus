@@ -17,7 +17,7 @@ const getStatusTable = props => <DeviceStatusTable {...props} />;
 
 const params = new URLSearchParams(window.location.search);
 
-const loadDefault = params.get("loadDefault");
+const loadDefault = params.get("loadDefault") === "true";
 
 function App() {
   const [showTripModal, updateShowTripModal] = React.useState(true);
