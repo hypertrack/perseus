@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/atlas/static/css/main.4b45d2a5.chunk.css",
+    "main.js": "/atlas/static/js/main.3390eb23.chunk.js",
+    "main.js.map": "/atlas/static/js/main.3390eb23.chunk.js.map",
+    "runtime-main.js": "/atlas/static/js/runtime-main.7b94fc83.js",
+    "runtime-main.js.map": "/atlas/static/js/runtime-main.7b94fc83.js.map",
+    "static/css/2.f5ee52bb.chunk.css": "/atlas/static/css/2.f5ee52bb.chunk.css",
+    "static/js/2.f686ecb3.chunk.js": "/atlas/static/js/2.f686ecb3.chunk.js",
+    "static/js/2.f686ecb3.chunk.js.map": "/atlas/static/js/2.f686ecb3.chunk.js.map",
+    "index.html": "/atlas/index.html",
+    "precache-manifest.1ddb10ce6ceda330c727d6c0ffc9ebe2.js": "/atlas/precache-manifest.1ddb10ce6ceda330c727d6c0ffc9ebe2.js",
+    "service-worker.js": "/atlas/service-worker.js",
+    "static/css/2.f5ee52bb.chunk.css.map": "/atlas/static/css/2.f5ee52bb.chunk.css.map",
+    "static/css/main.4b45d2a5.chunk.css.map": "/atlas/static/css/main.4b45d2a5.chunk.css.map",
+    "static/media/blueprint-icons.css": "/atlas/static/media/icons-20.d1f0f6c1.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b94fc83.js",
+    "static/css/2.f5ee52bb.chunk.css",
+    "static/js/2.f686ecb3.chunk.js",
+    "static/css/main.4b45d2a5.chunk.css",
+    "static/js/main.3390eb23.chunk.js"
+  ]
+}
