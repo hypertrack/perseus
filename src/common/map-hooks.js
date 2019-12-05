@@ -2,11 +2,6 @@ import React from "react";
 
 import mapboxgl from "mapbox-gl";
 
-// const maxBounds = [
-// 	[-180, 90],
-// 	[180, -90]
-// ];
-
 const useMap = container => {
   const mapRef = React.useRef();
   React.useEffect(() => {
@@ -18,11 +13,6 @@ const useMap = container => {
           "pk.eyJ1IjoiaHlwZXJ0cmFjay1kZXZvcHMiLCJhIjoiY2ptZzVndTduMWZ0YzNrbzFuNXR0cHUyOSJ9.Te8DokzaOXSVdh7ntUptyA",
         keyboard: true,
         center: [0, 0]
-        // maxBounds,
-        // tileLayer: {
-        // 	continuousWorld: false,
-        // 	noWrap: true
-        // }
       });
   }, [container]);
   return mapRef;
