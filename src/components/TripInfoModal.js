@@ -18,19 +18,25 @@ const TripInfoModal = ({
   showTripModal,
   updateJson,
   hideModal,
-  showModal
+  showModal,
+  fetchError
 }) => {
   const [userJson, updateUserJson] = React.useState(
     JSON.stringify(trip, null, "\t")
   );
   const [filename, updateFilename] = React.useState(undefined);
-  const [errors, updateErrors] = React.useState("");
+  const [errors, updateErrors] = React.useState(undefined);
 
   React.useEffect(() => {
     if (JSON.stringify(trip) !== JSON.stringify(userJson))
       updateUserJson(JSON.stringify(trip, null, "\t"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trip]);
+
+  React.useEffect(() => {
+    if (fetchError && fetchError !== errors) updateErrors({ fetchError });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchError]);
 
   const validateInput = tripJSON => {
     const validationErrors = utils.validateTripJSON(tripJSON);
@@ -47,7 +53,7 @@ const TripInfoModal = ({
       hideModal();
     } catch (error) {
       console.error(error);
-      updateErrors([error]);
+      updateErrors(error);
     }
   };
 
@@ -82,7 +88,7 @@ const TripInfoModal = ({
         validateInput(tripJSON);
       } catch (error) {
         console.error(error);
-        updateErrors([error]);
+        updateErrors(error);
       }
   };
 
@@ -111,33 +117,41 @@ const TripInfoModal = ({
               placeholder={"Paste trip_summary here"}
               onBlur={handleBlurEvent}
             />
-            {errors && errors.length ? (
+            {errors ? (
               <div className={"error-table-container"}>
-                <HTMLTable className={"error-table"} bordered>
-                  <caption>
-                    There {errors.length > 1 ? "are" : "is an"}{" "}
-                    {errors.length > 1 ? errors.length : ""} issue
-                    {errors.length > 1 ? "s" : ""}
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th>Location</th>
-                      <th>Issue</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {errors.map(error => (
-                      <tr key={error.dataPath}>
-                        <td>
-                          <div className="table-content">{error.dataPath}</div>
-                        </td>
-                        <td>
-                          <div className="table-content">{error.message}</div>
-                        </td>
+                {Array.isArray(errors) ? (
+                  <HTMLTable className={"error-table"} bordered>
+                    <caption>
+                      There {errors.length > 1 ? "are" : "is an"}{" "}
+                      {errors.length > 1 ? errors.length : ""} issue
+                      {errors.length > 1 ? "s" : ""}
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th>Location</th>
+                        <th>Issue</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </HTMLTable>
+                    </thead>
+                    <tbody>
+                      {errors.map(error => (
+                        <tr key={error.dataPath}>
+                          <td>
+                            <div className="table-content">
+                              {error.dataPath}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="table-content">{error.message}</div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </HTMLTable>
+                ) : (
+                  <div className="error-table error">
+                    {errors.message ? errors.message : JSON.stringify(errors)}
+                  </div>
+                )}
               </div>
             ) : null}
           </div>
