@@ -39,7 +39,7 @@ const TripInfoModal = ({
   }, [fetchError]);
 
   const validateInput = tripJSON => {
-    const validationErrors = utils.validateTripJSON(tripJSON);
+    const validationErrors = utils.validateInputJSON(tripJSON);
     if (validationErrors && validationErrors.length)
       updateErrors(validationErrors);
     else updateErrors(null);
