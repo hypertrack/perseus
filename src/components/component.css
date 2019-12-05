@@ -19,6 +19,12 @@
   table-layout: fixed;
 }
 
+.error-table.error {
+  padding: 10px;
+  color: red;
+  font-weight: 600;
+}
+
 caption {
   padding: 10px;
   color: red;
