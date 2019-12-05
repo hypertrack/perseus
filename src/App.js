@@ -34,11 +34,27 @@ function App() {
     updateJson(json);
     if (!fromLocalstorage)
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
-    const { locations, markers } = json.summary;
-    const line = new classes.Line(locations);
-    const deviceStatusMarkers = utils.markersByType(markers)("device_status");
-    mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
-    mapUtils.plotMarkers(mapRef, popupRef, deviceStatusMarkers, getStatusTable);
+    if (json.type === "LineString") {
+      const line = new classes.Line(json);
+      mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
+    } else {
+      try {
+        const { locations, markers } = json.summary;
+        const line = new classes.Line(locations);
+        const deviceStatusMarkers = utils.markersByType(markers)(
+          "device_status"
+        );
+        mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
+        mapUtils.plotMarkers(
+          mapRef,
+          popupRef,
+          deviceStatusMarkers,
+          getStatusTable
+        );
+      } catch (error) {
+        updateError(error);
+      }
+    }
   };
 
   React.useEffect(() => {

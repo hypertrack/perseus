@@ -69,14 +69,18 @@ const rowMap = {
           {lat} {lng}
         </td>
       </tr>
-      <tr>
-        <td>Altitude</td>
-        <td className="capitalize">{alt}</td>
-      </tr>
-      <tr>
-        <td>Recorded at</td>
-        <td className="capitalize">{formatDate(new Date(recorded_at))}</td>
-      </tr>
+      {alt ? (
+        <tr>
+          <td>Altitude</td>
+          <td className="capitalize">{alt}</td>
+        </tr>
+      ) : null}
+      {recorded_at ? (
+        <tr>
+          <td>Recorded at</td>
+          <td className="capitalize">{formatDate(new Date(recorded_at))}</td>
+        </tr>
+      ) : null}
     </tbody>
   )
 };

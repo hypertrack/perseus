@@ -1,9 +1,11 @@
 import { classes } from "./";
-const trip_schema = require("./trip_schema.json");
+const trip_schema = require("../template/trip_schema.json");
+const LineString_schema = require("../template/LineString_schema.json");
 
 const Ajv = require("ajv");
 const ajv = new Ajv({ allErrors: true });
-const validate = ajv.compile(trip_schema);
+const trip_validator = ajv.compile(trip_schema);
+const LineString_validator = ajv.compile(LineString_schema);
 
 const parseGeofenceMarker = marker => {
   const { arrival, geofence } = marker;
@@ -92,8 +94,15 @@ const secondsToHms = d => {
   return hDisplay + mDisplay + sDisplay;
 };
 
-const validateTripJSON = trip => {
-  const valid = validate(trip);
+const validatorMap = {
+  trip: trip_validator,
+  LineString: LineString_validator
+};
+
+const validateInputJSON = json => {
+  const validate = validatorMap[json.type || "trip"];
+  debugger;
+  const valid = validate ? validate(json) : true;
   return !valid ? validate.errors : false;
 };
 
@@ -102,5 +111,5 @@ export default {
   getIcon,
   secondsToHms,
   markersByType,
-  validateTripJSON
+  validateInputJSON
 };
