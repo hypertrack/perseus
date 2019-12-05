@@ -2,6 +2,7 @@
   "name": "atlas2",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hypertrack.github.io/atlas",
   "dependencies": {
     "@blueprintjs/core": "^3.22.0",
     "ajv": "^6.10.2",
@@ -14,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,5 +33,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
+  }
 }
