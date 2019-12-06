@@ -1,37 +1,35 @@
 {
-  "locations": {
-    "properties": {
-      "type": {
-        "type": "string"
-      },
-      "coordinates": {
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "coordinates": {
+      "type": "array",
+      "items": {
         "type": "array",
-        "items": {
-          "type": "array",
-          "maxItems": 4,
-          "minItems": 2,
-          "items": [
-            {
-              "type": "number",
-              "minimum": -179.999999,
-              "maximum": 179.999999
-            },
-            {
-              "type": "number",
-              "minimum": -89.999999,
-              "maximum": 89.999999
-            },
-            {
-              "type": ["number", "null"],
-              "minimum": -12262,
-              "maximum": 11000
-            },
-            {
-              "type": "string",
-              "format": "date-time"
-            }
-          ]
-        }
+        "maxItems": 4,
+        "minItems": 2,
+        "items": [
+          {
+            "type": "number",
+            "minimum": -179.999999,
+            "maximum": 179.999999
+          },
+          {
+            "type": "number",
+            "minimum": -89.999999,
+            "maximum": 89.999999
+          },
+          {
+            "type": ["number", "null"],
+            "minimum": -12262,
+            "maximum": 11000
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ]
       }
     }
   }
