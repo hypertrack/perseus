@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/atlas2/precache-manifest.93c4ecbb9484fb9251999f3c0d0ee1d3.js"
+  "/atlas2/precache-manifest.0f336d9004f53aedd8d5bed0ced064d1.js"
 );
 
 self.addEventListener('message', (event) => {
