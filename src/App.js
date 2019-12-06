@@ -26,7 +26,7 @@ function App() {
   const [json, updateJson] = React.useState(
     loadDefault ? defaultJSON : undefined
   );
-  const [error, updateError] = React.useState(false);
+  const [error, updateError] = React.useState(undefined);
   const mapRef = hooks.useMap(mapContainerId);
   const popupRef = hooks.usePopup(mapRef);
 
@@ -65,7 +65,11 @@ function App() {
         .then(data => {
           if (data.message) updateError(data.message);
           else {
-            const json = JSON.parse(data.files["default.json"].content);
+            const json = JSON.parse(
+              data.files["default.json"]
+                ? data.files["default.json"].content
+                : Object.values(data.files)[0].content
+            );
             updateJson(json);
           }
         })
