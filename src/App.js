@@ -9,23 +9,17 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "./App.css";
 
-const defaultJSON = require("./template/default.json");
-
 const mapContainerId = "map-container";
 
 const getStatusTable = props => <DeviceStatusTable {...props} />;
 
 const params = new URLSearchParams(window.location.search);
 
-const loadDefault = params.get("loadDefault") === "true";
-
 const gistURL = params.get("gist");
 
 function App() {
   const [showTripModal, updateShowTripModal] = React.useState(true);
-  const [json, updateJson] = React.useState(
-    loadDefault ? defaultJSON : undefined
-  );
+  const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
   const mapRef = hooks.useMap(mapContainerId);
   const popupRef = hooks.usePopup(mapRef);
@@ -74,9 +68,7 @@ function App() {
           }
         })
         .catch(error => updateError(error));
-    } else if (loadDefault)
-      window.history.replaceState({}, "", "?loadDefault=false");
-    else {
+    } else {
       const previousJSON = localStorage.getItem("previousJSON");
       const tripJSON = JSON.parse(previousJSON);
       if (tripJSON)
