@@ -143,11 +143,7 @@ const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
                           deviceStatus
                         })
                       ),
-                      icon: utils.getIcon(
-                        deviceStatus,
-                        activity,
-                        "circle-stroked"
-                      )
+                      icon: utils.getIcon(deviceStatus, activity)
                     },
                     geometry: start.location
                   },
@@ -194,8 +190,8 @@ const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
       }
     },
     layout: {
-      "icon-image": "{icon}-15",
-      "icon-allow-overlap": true
+      "icon-image": "{icon}",
+      "icon-allow-overlap": false
     }
   });
 

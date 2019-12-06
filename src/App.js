@@ -72,9 +72,7 @@ function App() {
       const previousJSON = localStorage.getItem("previousJSON");
       const tripJSON = JSON.parse(previousJSON);
       if (tripJSON)
-        mapRef.current.on("load", () => {
-          handleJsonUpdate(tripJSON, true);
-        });
+        mapRef.current.on("load", () => handleJsonUpdate(tripJSON, true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

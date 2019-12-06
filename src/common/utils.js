@@ -55,19 +55,25 @@ const markerTypeMap = {
 
 const parseMarker = ({ type, data }) => markerTypeMap[type](data);
 
-const iconMap = {
-  stop: "cafe",
-  walk: "pitch",
-  run: "skiing",
-  drive: "car",
-  cycle: "bicycle",
-  disconnected: "cross",
-  inactive: "roadblock",
-  active: "rocket"
-};
+const valid_device_status_states = [
+  "disconnected",
+  "inactive",
+  "unknown",
+  "stop",
+  "walk",
+  "run",
+  "drive"
+];
 
-const getIcon = (deviceStatus, activity, defaultIcon) =>
-  iconMap[activity] || defaultIcon || iconMap[deviceStatus];
+const getImageSource = variant =>
+  `${process.env.PUBLIC_URL}/assets/${variant}.png`;
+
+const getIcon = (deviceStatus, activity) =>
+  valid_device_status_states.includes(activity)
+    ? activity
+    : valid_device_status_states.includes(deviceStatus)
+    ? deviceStatus
+    : "unknown";
 
 const markersByType = markers => type => {
   const allMarkers = markers.reduce(
@@ -101,7 +107,6 @@ const validatorMap = {
 
 const validateInputJSON = json => {
   const validate = validatorMap[json.type || "trip"];
-  debugger;
   const valid = validate ? validate(json) : true;
   return !valid ? validate.errors : false;
 };
@@ -111,5 +116,7 @@ export default {
   getIcon,
   secondsToHms,
   markersByType,
-  validateInputJSON
+  validateInputJSON,
+  valid_device_status_states,
+  getImageSource
 };
