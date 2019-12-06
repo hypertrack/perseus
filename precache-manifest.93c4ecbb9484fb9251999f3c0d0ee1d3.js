@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b2a5df9672a6fc356960ecdb75aa7594",
+    "revision": "5f6c0b6621807d0b583f20c4389f8eb3",
     "url": "/atlas2/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/atlas2/static/css/2.70b8361f.chunk.css"
   },
   {
-    "revision": "fc616ce79a149d7c652c",
+    "revision": "076029829d84d0e99c22",
     "url": "/atlas2/static/css/main.feaf1e96.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/atlas2/static/js/2.7ff040a3.chunk.js"
   },
   {
-    "revision": "fc616ce79a149d7c652c",
-    "url": "/atlas2/static/js/main.f7c185db.chunk.js"
+    "revision": "076029829d84d0e99c22",
+    "url": "/atlas2/static/js/main.478fecd9.chunk.js"
   },
   {
     "revision": "0d390ba100ea91ed8499",
