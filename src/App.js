@@ -17,6 +17,10 @@ const params = new URLSearchParams(window.location.search);
 
 const gistURL = params.get("gist");
 
+const locationArrays = params.get("locations");
+
+const coordinates = JSON.parse(locationArrays);
+
 function App() {
   const [showTripModal, updateShowTripModal] = React.useState(true);
   const [json, updateJson] = React.useState(undefined);
@@ -68,6 +72,9 @@ function App() {
           }
         })
         .catch(error => updateError(error));
+    } else if (coordinates && coordinates.length) {
+      const line = new classes.Line({ coordinates, type: "LineString" });
+      mapRef.current.on("load", () => handleJsonUpdate(line, true));
     } else {
       const previousJSON = localStorage.getItem("previousJSON");
       const tripJSON = JSON.parse(previousJSON);
