@@ -1,8 +1,8 @@
 {
-  "name": "atlas2",
+  "name": "atlas",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hypertrack.github.io/atlas2",
+  "homepage": "https://hypertrack.github.io/atlas",
   "dependencies": {
     "@blueprintjs/core": "^3.22.0",
     "ajv": "^6.10.2",
