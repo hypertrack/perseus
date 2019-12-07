@@ -1,6 +1,7 @@
-<img src="https://www.hypertrack.com/green.eeca143346e01b96d600.svg" alt="HyperTrack logo" title="HyperTrack" align="left" style="margin: 1.5rem; margin-right: 0.5rem" height="40" />
-
-<h1 align="left" style="font-family: monospace;"> | Atlas </h1> 
+<div style="display: flex; align-items: center">
+  <img src="https://www.hypertrack.com/green.eeca143346e01b96d600.svg" alt="HyperTrack logo" title="HyperTrack" align="left" style="marmargin-right: 0.5rem" height="40" />
+  <h1 align="left" style="font-family: monospace;"> | Atlas </h1> 
+</div>
 <br/>
 ![](https://img.shields.io/david/hypertrack/atlas2?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas2?style=flat-square)
 
