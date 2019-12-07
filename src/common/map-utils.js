@@ -48,7 +48,8 @@ const mouseLeaveCallback = (mapRef, popupRef) => {
   popupRef.current.remove();
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable) => {
+const plotLine = (mapRef, popupRef, line, getStatusTable, options) => {
+  const { shed_animation } = options;
   let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
   mapRef.current
     .addLayer({
@@ -72,6 +73,7 @@ const plotLine = (mapRef, popupRef, line, getStatusTable) => {
       }
     })
     .fitBounds(computeBounds(line.coordinates), {
+      linear: shed_animation,
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 

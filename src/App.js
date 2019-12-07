@@ -19,6 +19,8 @@ const gistURL = params.get("gist");
 
 const locationArrays = params.get("locations");
 
+const shed_animation = params.get("shed_animation") === "true";
+
 const coordinates = JSON.parse(locationArrays);
 
 function App() {
@@ -34,7 +36,9 @@ function App() {
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
     if (json.type === "LineString") {
       const line = new classes.Line(json);
-      mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
+      mapUtils.plotLine(mapRef, popupRef, line, getStatusTable, {
+        shed_animation
+      });
       if (!showModal) updateShowTripModal(false);
     } else {
       try {
@@ -43,7 +47,9 @@ function App() {
         const deviceStatusMarkers = utils.markersByType(markers)(
           "device_status"
         );
-        mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
+        mapUtils.plotLine(mapRef, popupRef, line, getStatusTable, {
+          shed_animation
+        });
         mapUtils.plotMarkers(
           mapRef,
           popupRef,
