@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/atlas2/static/css/main.feaf1e96.chunk.css",
-    "main.js": "/atlas2/static/js/main.4b41b5db.chunk.js",
-    "main.js.map": "/atlas2/static/js/main.4b41b5db.chunk.js.map",
-    "runtime-main.js": "/atlas2/static/js/runtime-main.fa95d644.js",
-    "runtime-main.js.map": "/atlas2/static/js/runtime-main.fa95d644.js.map",
-    "static/css/2.70b8361f.chunk.css": "/atlas2/static/css/2.70b8361f.chunk.css",
-    "static/js/2.d31c8d0b.chunk.js": "/atlas2/static/js/2.d31c8d0b.chunk.js",
-    "static/js/2.d31c8d0b.chunk.js.map": "/atlas2/static/js/2.d31c8d0b.chunk.js.map",
-    "index.html": "/atlas2/index.html",
-    "precache-manifest.4328c614f51e9bacab85672d39ac9103.js": "/atlas2/precache-manifest.4328c614f51e9bacab85672d39ac9103.js",
-    "service-worker.js": "/atlas2/service-worker.js",
-    "static/css/2.70b8361f.chunk.css.map": "/atlas2/static/css/2.70b8361f.chunk.css.map",
-    "static/css/main.feaf1e96.chunk.css.map": "/atlas2/static/css/main.feaf1e96.chunk.css.map",
-    "static/media/blueprint-icons.css": "/atlas2/static/media/icons-20.d1f0f6c1.ttf"
+    "main.css": "/atlas/static/css/main.feaf1e96.chunk.css",
+    "main.js": "/atlas/static/js/main.73adaf0a.chunk.js",
+    "main.js.map": "/atlas/static/js/main.73adaf0a.chunk.js.map",
+    "runtime-main.js": "/atlas/static/js/runtime-main.1e95324d.js",
+    "runtime-main.js.map": "/atlas/static/js/runtime-main.1e95324d.js.map",
+    "static/css/2.f5ee52bb.chunk.css": "/atlas/static/css/2.f5ee52bb.chunk.css",
+    "static/js/2.f84c6760.chunk.js": "/atlas/static/js/2.f84c6760.chunk.js",
+    "static/js/2.f84c6760.chunk.js.map": "/atlas/static/js/2.f84c6760.chunk.js.map",
+    "index.html": "/atlas/index.html",
+    "precache-manifest.999ef1d9134ade11e21bdad687bbe515.js": "/atlas/precache-manifest.999ef1d9134ade11e21bdad687bbe515.js",
+    "service-worker.js": "/atlas/service-worker.js",
+    "static/css/2.f5ee52bb.chunk.css.map": "/atlas/static/css/2.f5ee52bb.chunk.css.map",
+    "static/css/main.feaf1e96.chunk.css.map": "/atlas/static/css/main.feaf1e96.chunk.css.map",
+    "static/media/blueprint-icons.css": "/atlas/static/media/icons-20.d1f0f6c1.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.fa95d644.js",
-    "static/css/2.70b8361f.chunk.css",
-    "static/js/2.d31c8d0b.chunk.js",
+    "static/js/runtime-main.1e95324d.js",
+    "static/css/2.f5ee52bb.chunk.css",
+    "static/js/2.f84c6760.chunk.js",
     "static/css/main.feaf1e96.chunk.css",
-    "static/js/main.4b41b5db.chunk.js"
+    "static/js/main.73adaf0a.chunk.js"
   ]
 }
