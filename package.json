@@ -11,6 +11,16 @@
     "react-dom": "^16.12.0",
     "react-scripts": "3.2.0"
   },
+  "author": "Sahil Satishkumar <sahil@hypertrack.com>",
+  "license": "MIT",
+  "keywords": [
+    "atlas",
+    "hypertrack",
+    "trip_summary",
+    "LineString",
+    "react",
+    "mapbox"
+  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
