@@ -3,6 +3,7 @@
   <h1 align="left" style="font-family: monospace;"> | Atlas </h1> 
 </div>
 <br/>
+
 ![](https://img.shields.io/david/hypertrack/atlas2?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas2?style=flat-square)
 
 Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` or `LineString` geoJSON. Use this web app to debug your device's trips, investigate location & activity events in your trip.
