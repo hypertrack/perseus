@@ -28,13 +28,14 @@ function App() {
   const mapRef = hooks.useMap(mapContainerId);
   const popupRef = hooks.usePopup(mapRef);
 
-  const handleJsonUpdate = (json, fromLocalstorage) => {
+  const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
     updateJson(json);
     if (!fromLocalstorage)
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
     if (json.type === "LineString") {
       const line = new classes.Line(json);
       mapUtils.plotLine(mapRef, popupRef, line, getStatusTable);
+      if (!showModal) updateShowTripModal(false);
     } else {
       try {
         const { locations, markers } = json.summary;
@@ -74,7 +75,7 @@ function App() {
         .catch(error => updateError(error));
     } else if (coordinates && coordinates.length) {
       const line = new classes.Line({ coordinates, type: "LineString" });
-      mapRef.current.on("load", () => handleJsonUpdate(line, true));
+      mapRef.current.on("load", () => handleJsonUpdate(line, true, false));
     } else {
       const previousJSON = localStorage.getItem("previousJSON");
       const tripJSON = JSON.parse(previousJSON);
