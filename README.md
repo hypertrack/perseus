@@ -1,10 +1,8 @@
-<a href="https://www.hypertrack.com/>
 <img src="https://www.hypertrack.com/green.eeca143346e01b96d600.svg" alt="HyperTrack logo" title="HyperTrack" align="left" style="margin: 1.5rem; margin-right: 0.5rem" height="40" />
-</a>
 
-# | Atlas ![](https://img.shields.io/david/hypertrack/placeline-nextjs?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/placeline-nextjs?style=flat-square)
-
+<h1 align="left" style="font-family: monospace;"> | Atlas </h1> 
 <br/>
+![](https://img.shields.io/david/hypertrack/atlas2?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas2?style=flat-square)
 
 Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` or `LineString` geoJSON. Use this web app to debug your device's trips, investigate location & activity events in your trip.
 
