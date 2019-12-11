@@ -10,6 +10,10 @@ Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` o
 
 > 💬 [Check out the blog post about Atlas here](__BLOG_POST_LINK_HERE__)
 
+<p align="center">
+  <img src="public/atlas_demo.gif" />
+</p>
+
 ## Overview
 
 - [Hypertrack Altas](#ht-atlas)
