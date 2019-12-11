@@ -1,8 +1,9 @@
 import mapboxgl from "mapbox-gl";
+import ReactDOMServer from "react-dom/server";
 
 import { utils, classes } from "./";
 
-import ReactDOMServer from "react-dom/server";
+import "./index.css";
 
 const computeBounds = coordinates => {
   const point = new mapboxgl.LngLat(coordinates[0][0], coordinates[0][1]);
@@ -37,6 +38,34 @@ const mouseEnterCallback = (e, mapRef, popupRef) => {
   const description = e.features[0].properties.description;
   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180)
     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  popupRef.current
+    .setLngLat(coordinates)
+    .setHTML(description)
+    .addTo(mapRef.current);
+};
+
+const mouseClickCallback = (
+  e,
+  mapRef,
+  popupRef,
+  deviceStatusMarker,
+  getStatusTable
+) => {
+  const { start, end } = deviceStatusMarker;
+  mapRef.current.getCanvas().style.cursor = "pointer";
+  const location =
+    start && start.location
+      ? start.location.coordinates
+      : end && end.location
+      ? end.location.coordinates
+      : [];
+  let coordinates = location.slice();
+  const description = ReactDOMServer.renderToString(
+    getStatusTable({
+      type: "deviceStatusMarker",
+      ...deviceStatusMarker
+    })
+  );
   popupRef.current
     .setLngLat(coordinates)
     .setHTML(description)
@@ -120,80 +149,51 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, options) => {
   );
 };
 
-const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
+const useMarkers = (
+  mapRef,
+  popupRef,
+  markersRef,
+  deviceStatusMarkers,
+  getStatusTable
+) => {
   const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
-  mapRef.current.addLayer({
-    id: newLayerId,
-    type: "symbol",
-    source: {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: deviceStatusMarkers.reduce(
-          (features, { start, end, deviceStatus, activity, duration }) =>
-            start.location && end.location
-              ? [
-                  ...features,
-                  {
-                    type: "Feature",
-                    properties: {
-                      description: ReactDOMServer.renderToString(
-                        getStatusTable({
-                          type: "deviceStatusMarker",
-                          start,
-                          end,
-                          deviceStatus
-                        })
-                      ),
-                      icon: utils.getIcon(deviceStatus, activity)
-                    },
-                    geometry: start.location
-                  },
-                  {
-                    type: "Feature",
-                    properties: {
-                      description: ReactDOMServer.renderToString(
-                        getStatusTable({
-                          type: "deviceStatusMarker",
-                          start,
-                          end,
-                          deviceStatus,
-                          activity,
-                          duration
-                        })
-                      ),
-                      icon: utils.getIcon(deviceStatus, activity, "circle")
-                    },
-                    geometry: end.location
-                  }
-                ]
-              : [
-                  ...features,
-                  {
-                    type: "Feature",
-                    properties: {
-                      description: ReactDOMServer.renderToString(
-                        getStatusTable({
-                          type: "deviceStatusMarker",
-                          start,
-                          end,
-                          deviceStatus,
-                          activity,
-                          duration
-                        })
-                      ),
-                      icon: utils.getIcon(deviceStatus, activity)
-                    },
-                    geometry: end.location || start.location
-                  }
-                ],
-          []
+  if (markersRef.current && markersRef.current.length) debugger;
+  deviceStatusMarkers.forEach(deviceStatusMarker => {
+    const { start, end, deviceStatus, activity } = deviceStatusMarker;
+    if (start || end) {
+      const variant = utils.getIcon(activity || deviceStatus);
+      if (!variant) debugger;
+      console.log({ variant });
+      const markerElement = document.createElement("div");
+      markerElement.className = "marker-container";
+
+      markerElement.innerHTML = `<img src=${utils.getImageSource(
+        variant
+      )} alt=${variant} class="marker-image"/>`;
+
+      markerElement.addEventListener("mouseenter", event =>
+        mouseClickCallback(
+          event,
+          mapRef,
+          popupRef,
+          deviceStatusMarker,
+          getStatusTable
         )
-      }
-    },
-    layout: {
-      "icon-image": "{icon}",
-      "icon-allow-overlap": false
+      );
+      markerElement.addEventListener("mouseleave", () =>
+        mouseLeaveCallback(mapRef, popupRef)
+      );
+      const location =
+        start && start.location
+          ? start.location.coordinates
+          : end && end.location
+          ? end.location.coordinates
+          : [];
+      markersRef.current.push(
+        new mapboxgl.Marker(markerElement)
+          .setLngLat(location)
+          .addTo(mapRef.current)
+      );
     }
   });
 
@@ -208,5 +208,5 @@ const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
 
 export default {
   plotLine,
-  plotMarkers
+  useMarkers
 };
