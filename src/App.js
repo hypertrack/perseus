@@ -28,7 +28,9 @@ function App() {
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
   const mapRef = hooks.useMap(mapContainerId);
-  const popupRef = hooks.usePopup(mapRef);
+  const locationPopupRef = hooks.usePopup(mapRef);
+  const deviceStatusPopupRef = hooks.usePopup(mapRef, { offset: 10 });
+  const markersRef = React.useRef([]);
 
   const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
     updateJson(json);
@@ -36,7 +38,7 @@ function App() {
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
     if (json.type === "LineString") {
       const line = new classes.Line(json);
-      mapUtils.plotLine(mapRef, popupRef, line, getStatusTable, {
+      mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable, {
         shed_animation
       });
       if (!showModal) updateShowTripModal(false);
@@ -47,12 +49,13 @@ function App() {
         const deviceStatusMarkers = utils.markersByType(markers)(
           "device_status"
         );
-        mapUtils.plotLine(mapRef, popupRef, line, getStatusTable, {
+        mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable, {
           shed_animation
         });
-        mapUtils.plotMarkers(
+        mapUtils.useMarkers(
           mapRef,
-          popupRef,
+          deviceStatusPopupRef,
+          markersRef,
           deviceStatusMarkers,
           getStatusTable
         );
