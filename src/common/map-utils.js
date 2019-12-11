@@ -77,8 +77,7 @@ const mouseLeaveCallback = (mapRef, popupRef) => {
   popupRef.current.remove();
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable, options) => {
-  const { shed_animation } = options;
+const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
   let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
   mapRef.current
     .addLayer({
@@ -102,7 +101,7 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, options) => {
       }
     })
     .fitBounds(computeBounds(line.coordinates), {
-      linear: shed_animation,
+      ...fitBoundsOptions,
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 
@@ -154,7 +153,8 @@ const useMarkers = (
   popupRef,
   markersRef,
   deviceStatusMarkers,
-  getStatusTable
+  getStatusTable,
+  fitBoundsOptions
 ) => {
   if (markersRef.current && markersRef.current.length)
     markersRef.current.forEach(marker => marker.remove());
