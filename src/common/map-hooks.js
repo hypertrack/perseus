@@ -11,7 +11,6 @@ const useMap = (container, options) => {
         style: "mapbox://styles/mapbox/streets-v9",
         keyboard: true,
         center: [0, 0],
-        hash: true,
         accessToken,
         ...rest
       });

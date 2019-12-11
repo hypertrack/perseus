@@ -23,7 +23,8 @@ const shed_animation = params.get("shed_animation") === "true";
 
 const urlAccessToken = params.get("accessToken");
 
-const hash = params.get("hash") === "false";
+const hash =
+  params.get("hash") && params.get("hash") === "false" ? false : true;
 
 const coordinates = JSON.parse(locationArrays);
 
