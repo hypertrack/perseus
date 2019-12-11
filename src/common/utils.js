@@ -53,7 +53,8 @@ const markerTypeMap = {
   device_status: parseDeviceStatusMarker
 };
 
-const parseMarker = ({ type, data }) => markerTypeMap[type](data);
+const parseMarker = ({ type, data }) =>
+  markerTypeMap[type] ? markerTypeMap[type](data) : data;
 
 const valid_device_status_states = [
   "disconnected",
