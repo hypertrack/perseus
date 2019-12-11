@@ -4,7 +4,7 @@
 </div>
 <br/>
 
-![](https://img.shields.io/david/hypertrack/atlas2?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas2?style=flat-square) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+![](https://img.shields.io/david/hypertrack/atlas?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas?style=flat-square) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` or `LineString` geoJSON. Use this web app to debug your device's trips, investigate location & activity events in your trip.
 
@@ -125,7 +125,7 @@ yarn start
 You'd be using Atlas in one of 2 ways:
 
 1. Start afresh with no data, One would acquire a `trip_summary` or `LineString` geoJSON; either paste the JSON as text in the text field, or upload one of the JSON type through the file input field. Once validated, `Update` button, would close the modal, and plot the location data on to the map
-2. Atlas is loaded with a gist URL. In such scenario, Atlas would fetch the json from the gist (both public gists, and private gists are supported) and update the text field. Once validated, `Update` button, would close the modal, and plot the location data on to the map. <br/> The gist url can be supplied as a [URL search parameter](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) `gist`. <br/> Eg: `https://hypertrack.github.io/atlas2/?gist=https://gist.github.com/SahRckr/c6ee0dd9b7bd605f8ca9d9b43561387d`
+2. Atlas is loaded with a gist URL. In such scenario, Atlas would fetch the json from the gist (both public gists, and private gists are supported) and update the text field. Once validated, `Update` button, would close the modal, and plot the location data on to the map. <br/> The gist url can be supplied as a [URL search parameter](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) `gist`. <br/> Eg: `https://hypertrack.github.io/atlas/?gist=https://gist.github.com/SahRckr/c6ee0dd9b7bd605f8ca9d9b43561387d`
 
 The validation of input will prohibit the input overlay to close and list out known problems in the input.
 
