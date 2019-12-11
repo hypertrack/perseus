@@ -34,7 +34,7 @@ const TripInfoModal = ({
   }, [trip]);
 
   React.useEffect(() => {
-    if (fetchError && fetchError !== errors) updateErrors({ fetchError });
+    if (fetchError && fetchError !== errors) updateErrors(fetchError);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchError]);
 

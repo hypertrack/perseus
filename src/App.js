@@ -21,16 +21,61 @@ const locationArrays = params.get("locations");
 
 const shed_animation = params.get("shed_animation") === "true";
 
+const urlAccessToken = params.get("accessToken");
+
+const hash = params.get("hash") === "false";
+
 const coordinates = JSON.parse(locationArrays);
 
 function App() {
   const [showTripModal, updateShowTripModal] = React.useState(true);
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
-  const mapRef = hooks.useMap(mapContainerId);
+  const accessToken = hooks.useAccessToken(urlAccessToken);
+  const mapRef = hooks.useMap(mapContainerId, {
+    accessToken,
+    hash,
+    fitBoundsOptions: { linear: shed_animation }
+  });
   const locationPopupRef = hooks.usePopup(mapRef);
   const deviceStatusPopupRef = hooks.usePopup(mapRef, { offset: 10 });
   const markersRef = React.useRef([]);
+
+  React.useEffect(() => {
+    if (accessToken) {
+      if (gistURL) {
+        const gistId = gistURL.split("/").pop();
+        fetch(`https://api.github.com/gists/${gistId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.message) {
+              console.error(data.message);
+              updateError(data.message);
+            } else {
+              const json = JSON.parse(
+                data.files["default.json"]
+                  ? data.files["default.json"].content
+                  : Object.values(data.files)[0].content
+              );
+              updateJson(json);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            updateError(error);
+          });
+      } else if (coordinates && coordinates.length) {
+        const line = new classes.Line({ coordinates, type: "LineString" });
+        mapRef.current.on("load", () => handleJsonUpdate(line, true, false));
+      } else {
+        const previousJSON = localStorage.getItem("previousJSON");
+        const tripJSON = JSON.parse(previousJSON);
+        if (tripJSON)
+          mapRef.current.on("load", () => handleJsonUpdate(tripJSON, true));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken]);
 
   const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
     updateJson(json);
@@ -38,9 +83,7 @@ function App() {
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
     if (json.type === "LineString") {
       const line = new classes.Line(json);
-      mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable, {
-        shed_animation
-      });
+      mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable);
       if (!showModal) updateShowTripModal(false);
     } else {
       try {
@@ -49,9 +92,7 @@ function App() {
         const deviceStatusMarkers = utils.markersByType(markers)(
           "device_status"
         );
-        mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable, {
-          shed_animation
-        });
+        mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable);
         mapUtils.useMarkers(
           mapRef,
           deviceStatusPopupRef,
@@ -66,43 +107,11 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
-    if (gistURL) {
-      const gistId = gistURL.split("/").pop();
-      fetch(`https://api.github.com/gists/${gistId}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.message) {
-            console.error(data.message);
-            updateError(data.message);
-          } else {
-            const json = JSON.parse(
-              data.files["default.json"]
-                ? data.files["default.json"].content
-                : Object.values(data.files)[0].content
-            );
-            updateJson(json);
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          updateError(error);
-        });
-    } else if (coordinates && coordinates.length) {
-      const line = new classes.Line({ coordinates, type: "LineString" });
-      mapRef.current.on("load", () => handleJsonUpdate(line, true, false));
-    } else {
-      const previousJSON = localStorage.getItem("previousJSON");
-      const tripJSON = JSON.parse(previousJSON);
-      if (tripJSON)
-        mapRef.current.on("load", () => handleJsonUpdate(tripJSON, true));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (!accessToken && !error) updateError({ message: "Access Token missing" });
 
   return (
     <div className="app-container">
-      <div id={mapContainerId} />
+      {accessToken && <div id={mapContainerId} />}
       <TripInfoModal
         fetchError={error}
         trip={json}
