@@ -16,10 +16,10 @@ const useMap = (container, options) => {
         ...rest
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [container]);
+  }, [container, accessToken]);
 
   React.useEffect(() => {
-    mapboxgl.accessToken = accessToken;
+    if (accessToken) mapboxgl.accessToken = accessToken;
   }, [accessToken]);
   return mapRef;
 };
@@ -41,7 +41,7 @@ const usePopup = (mapRef, options = {}) => {
   return popupRef;
 };
 
-const useAccessToken = urlToken => {
+const useAccessToken = (urlToken, errorHandler) => {
   const [accessToken, updateAccessToken] = React.useState(urlToken);
   React.useEffect(() => {
     if (!urlToken) {
@@ -51,7 +51,13 @@ const useAccessToken = urlToken => {
         updateAccessToken(knownToken);
       }
     } else localStorage.setItem("accessToken", urlToken);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlToken]);
+  React.useEffect(() => {
+    if (accessToken) errorHandler();
+    else errorHandler("Missing access token");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken]);
   return accessToken;
 };
 

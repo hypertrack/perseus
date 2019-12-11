@@ -31,7 +31,7 @@ function App() {
   const [showTripModal, updateShowTripModal] = React.useState(true);
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
-  const accessToken = hooks.useAccessToken(urlAccessToken);
+  const accessToken = hooks.useAccessToken(urlAccessToken, updateError);
   const mapRef = hooks.useMap(mapContainerId, {
     accessToken,
     hash,
@@ -106,8 +106,6 @@ function App() {
       }
     }
   };
-
-  if (!accessToken && !error) updateError({ message: "Access Token missing" });
 
   return (
     <div className="app-container">
