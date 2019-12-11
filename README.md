@@ -27,7 +27,37 @@ Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` o
 
 ## Features
 
-Features of Atlas
+Supported features of Hypertrack Atlas:
+
+<table>
+  <tr>
+    <td align="center"><b>Activity Overview</b><br /><img src="public/activity_peek.png" width="350"/></td>
+    <td><ul>    
+      <li>Start time of the activity (if available)</li>
+      <li>End time of the activity (if available)</li>
+      <li>Recorded duration of the activity (if available)</li>
+      <li>Activity type: (classified into one of: Stop, Walk, Cycle, Drive, Unknown)</li>
+      <li>Available only for <code>trip_summary</code></li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Location Overview</b><br /><img src="public/location_peek.png" width="350"/></td>
+    <td><ul>
+      <li>Coordinates of the Location event</li>
+      <li>Altitude of Location event (if available)</li>
+      <li>Recorded timestamp of Location event (if available)</li>
+      <li>Available for <code>trip_summary</code> & <code>LineString</code> geoJSONs</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Validation Overview</b><br /><img src="public/linestring_data_validation.png" width="350"/></td>
+    <td><ul>
+      <li>Erroneous input not be plotted, until corrections are performed</li>
+      <li>Errors and thier locations are listed in the same popup</li>
+      <li>Validation is available for <code>trip_summary</code> & <code>LineString</code> geoJSONs</li>
+    </ul></td>
+  </tr>
+</table>
 
 ## Local Installation and setup
 
