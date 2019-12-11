@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b9c1986d9a2cb3558b68a84da24e8fda",
+    "revision": "f7125978ec83f0d5ab3127196abe0433",
     "url": "/atlas/index.html"
   },
   {
-    "revision": "9031c2c9932b1c01d3f6",
+    "revision": "5603e07db56e82c4123c",
     "url": "/atlas/static/css/2.f5ee52bb.chunk.css"
   },
   {
-    "revision": "d01e9797330d212a7a30",
+    "revision": "d0f1d12f489a848a5ce6",
     "url": "/atlas/static/css/main.258030b7.chunk.css"
   },
   {
-    "revision": "9031c2c9932b1c01d3f6",
-    "url": "/atlas/static/js/2.6d7c0e49.chunk.js"
+    "revision": "5603e07db56e82c4123c",
+    "url": "/atlas/static/js/2.8b66b1b1.chunk.js"
   },
   {
-    "revision": "d01e9797330d212a7a30",
-    "url": "/atlas/static/js/main.1759c10e.chunk.js"
+    "revision": "d0f1d12f489a848a5ce6",
+    "url": "/atlas/static/js/main.dcf96389.chunk.js"
   },
   {
     "revision": "a04d98bf8892b9197a01",
