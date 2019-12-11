@@ -4,11 +4,11 @@
 </div>
 <br/>
 
-![](https://img.shields.io/david/hypertrack/atlas2?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas2?style=flat-square)
+![](https://img.shields.io/david/hypertrack/atlas2?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas2?style=flat-square) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` or `LineString` geoJSON. Use this web app to debug your device's trips, investigate location & activity events in your trip.
 
-> 💬 [Check out the blog post about Atlas here](__BLOG_POST_LINK_HERE__)
+<!-- > 💬 [Check out the blog post about Atlas here](__BLOG_POST_LINK_HERE__) -->
 
 <p align="center">
   <img src="public/atlas_demo.gif" />
@@ -86,15 +86,17 @@ Features that can be enabled using `URLSearchParams`:
     <td align="center"><code>shed_animation</code></td>
     <td align="center">❌</td>
     <td align="center"><code>false</code></td>
-    <td>Set this key to true, to shed animations between map transitions</td>
+    <td>Set this key to <code>true</code>, to shed animations between map transitions</td>
   </tr>
   <tr>
     <td align="center"><code>hash</code></td>
     <td align="center">❌</td>
     <td align="center"><code>true</code></td>
-    <td>Set this key to false, to remove the trailing hash fragment in the URL</td>
+    <td>Set this key to <code>false</code>, to remove the trailing hash fragment in the URL</td>
   </tr>
 </table>
+
+> `accessToken` once set, will be cached in the browser.
 
 ## Local Installation and setup
 
