@@ -156,14 +156,14 @@ const useMarkers = (
   deviceStatusMarkers,
   getStatusTable
 ) => {
+  if (markersRef.current && markersRef.current.length)
+    markersRef.current.forEach(marker => marker.remove());
+  let markerList = [];
   const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
-  if (markersRef.current && markersRef.current.length) debugger;
   deviceStatusMarkers.forEach(deviceStatusMarker => {
     const { start, end, deviceStatus, activity } = deviceStatusMarker;
     if (start || end) {
       const variant = utils.getIcon(activity || deviceStatus);
-      if (!variant) debugger;
-      console.log({ variant });
       const markerElement = document.createElement("div");
       markerElement.className = "marker-container";
 
@@ -189,7 +189,7 @@ const useMarkers = (
           : end && end.location
           ? end.location.coordinates
           : [];
-      markersRef.current.push(
+      markerList.push(
         new mapboxgl.Marker(markerElement)
           .setLngLat(location)
           .addTo(mapRef.current)
@@ -204,6 +204,7 @@ const useMarkers = (
   mapRef.current.on("mouseleave", newLayerId, () =>
     mouseLeaveCallback(mapRef, popupRef)
   );
+  markersRef.current = markerList;
 };
 
 export default {
