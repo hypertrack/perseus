@@ -60,6 +60,7 @@ function App() {
           getStatusTable
         );
       } catch (error) {
+        console.error(error);
         updateError(error);
       }
     }
@@ -71,8 +72,10 @@ function App() {
       fetch(`https://api.github.com/gists/${gistId}`)
         .then(response => response.json())
         .then(data => {
-          if (data.message) updateError(data.message);
-          else {
+          if (data.message) {
+            console.error(data.message);
+            updateError(data.message);
+          } else {
             const json = JSON.parse(
               data.files["default.json"]
                 ? data.files["default.json"].content
@@ -81,7 +84,10 @@ function App() {
             updateJson(json);
           }
         })
-        .catch(error => updateError(error));
+        .catch(error => {
+          console.error(error);
+          updateError(error);
+        });
     } else if (coordinates && coordinates.length) {
       const line = new classes.Line({ coordinates, type: "LineString" });
       mapRef.current.on("load", () => handleJsonUpdate(line, true, false));
