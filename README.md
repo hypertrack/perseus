@@ -59,6 +59,43 @@ Supported features of Hypertrack Atlas:
   </tr>
 </table>
 
+Features that can be enabled using `URLSearchParams`:
+
+<table>
+  <tr>
+    <th>Search parameter key</th>
+    <th>Required</th>
+    <th>Default value</th>
+    <th>Possible values & thier validity</th>
+  </tr>
+  <tr>
+    <td align="center"><code>accessToken</code></td>
+    <td align="center">✅</td>
+    <td align="center">-</td>
+    <td>
+      Mapbox access token: <code>pk.__your_token_here__</code>. Pick up your token from mapbox, click <a href="https://docs.mapbox.com/accounts/overview/tokens/#mapbox-account-dashboard">here</a> for instructions.
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><code>gist</code></td>
+    <td align="center">❌</td>
+    <td align="center">-</td>
+    <td>Valid, public or private, <a href="https://help.github.com/en/github/writing-on-github/creating-gists#creating-a-gist">github gist</a> url</td>
+  </tr>
+  <tr>
+    <td align="center"><code>shed_animation</code></td>
+    <td align="center">❌</td>
+    <td align="center"><code>false</code></td>
+    <td>Set this key to true, to shed animations between map transitions</td>
+  </tr>
+  <tr>
+    <td align="center"><code>hash</code></td>
+    <td align="center">❌</td>
+    <td align="center"><code>true</code></td>
+    <td>Set this key to false, to remove the trailing hash fragment in the URL</td>
+  </tr>
+</table>
+
 ## Local Installation and setup
 
 After cloning or forking this repository, you should install all dependencies on your machine:
