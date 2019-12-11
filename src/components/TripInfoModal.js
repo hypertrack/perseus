@@ -25,7 +25,9 @@ const TripInfoModal = ({
     JSON.stringify(trip, null, "\t")
   );
   const [filename, updateFilename] = React.useState(undefined);
-  const [errors, updateErrors] = React.useState(undefined);
+  const [localErrors, updateErrors] = React.useState(undefined);
+
+  const errors = fetchError || localErrors;
 
   React.useEffect(() => {
     if (JSON.stringify(trip) !== JSON.stringify(userJson))
@@ -34,7 +36,7 @@ const TripInfoModal = ({
   }, [trip]);
 
   React.useEffect(() => {
-    if (fetchError && fetchError !== errors) updateErrors({ fetchError });
+    if (fetchError && fetchError !== errors) updateErrors(fetchError);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchError]);
 
