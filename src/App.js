@@ -32,10 +32,11 @@ function App() {
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
   const accessToken = hooks.useAccessToken(urlAccessToken, updateError);
+  const fitBoundsOptions = { linear: shed_animation };
   const mapRef = hooks.useMap(mapContainerId, {
     accessToken,
     hash,
-    fitBoundsOptions: { linear: shed_animation }
+    fitBoundsOptions
   });
   const locationPopupRef = hooks.usePopup(mapRef);
   const deviceStatusPopupRef = hooks.usePopup(mapRef, { offset: 10 });
@@ -83,7 +84,13 @@ function App() {
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
     if (json.type === "LineString") {
       const line = new classes.Line(json);
-      mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable);
+      mapUtils.plotLine(
+        mapRef,
+        locationPopupRef,
+        line,
+        getStatusTable,
+        fitBoundsOptions
+      );
       if (!showModal) updateShowTripModal(false);
     } else {
       try {
@@ -92,7 +99,13 @@ function App() {
         const deviceStatusMarkers = utils.markersByType(markers)(
           "device_status"
         );
-        mapUtils.plotLine(mapRef, locationPopupRef, line, getStatusTable);
+        mapUtils.plotLine(
+          mapRef,
+          locationPopupRef,
+          line,
+          getStatusTable,
+          fitBoundsOptions
+        );
         mapUtils.useMarkers(
           mapRef,
           deviceStatusPopupRef,
