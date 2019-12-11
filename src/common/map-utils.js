@@ -1,8 +1,9 @@
 import mapboxgl from "mapbox-gl";
+import ReactDOMServer from "react-dom/server";
 
 import { utils, classes } from "./";
 
-import ReactDOMServer from "react-dom/server";
+import "./index.css";
 
 const computeBounds = coordinates => {
   const point = new mapboxgl.LngLat(coordinates[0][0], coordinates[0][1]);
@@ -43,12 +44,41 @@ const mouseEnterCallback = (e, mapRef, popupRef) => {
     .addTo(mapRef.current);
 };
 
+const mouseClickCallback = (
+  e,
+  mapRef,
+  popupRef,
+  deviceStatusMarker,
+  getStatusTable
+) => {
+  const { start, end } = deviceStatusMarker;
+  mapRef.current.getCanvas().style.cursor = "pointer";
+  const location =
+    start && start.location
+      ? start.location.coordinates
+      : end && end.location
+      ? end.location.coordinates
+      : [];
+  let coordinates = location.slice();
+  const description = ReactDOMServer.renderToString(
+    getStatusTable({
+      type: "deviceStatusMarker",
+      ...deviceStatusMarker
+    })
+  );
+  popupRef.current
+    .setLngLat(coordinates)
+    .setHTML(description)
+    .addTo(mapRef.current);
+};
+
 const mouseLeaveCallback = (mapRef, popupRef) => {
   mapRef.current.getCanvas().style.cursor = "";
   popupRef.current.remove();
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable) => {
+const plotLine = (mapRef, popupRef, line, getStatusTable, options) => {
+  const { shed_animation } = options;
   let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
   mapRef.current
     .addLayer({
@@ -72,6 +102,7 @@ const plotLine = (mapRef, popupRef, line, getStatusTable) => {
       }
     })
     .fitBounds(computeBounds(line.coordinates), {
+      linear: shed_animation,
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 
@@ -118,80 +149,51 @@ const plotLine = (mapRef, popupRef, line, getStatusTable) => {
   );
 };
 
-const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
+const useMarkers = (
+  mapRef,
+  popupRef,
+  markersRef,
+  deviceStatusMarkers,
+  getStatusTable
+) => {
+  if (markersRef.current && markersRef.current.length)
+    markersRef.current.forEach(marker => marker.remove());
+  let markerList = [];
   const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
-  mapRef.current.addLayer({
-    id: newLayerId,
-    type: "symbol",
-    source: {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: deviceStatusMarkers.reduce(
-          (features, { start, end, deviceStatus, activity, duration }) =>
-            start.location && end.location
-              ? [
-                  ...features,
-                  {
-                    type: "Feature",
-                    properties: {
-                      description: ReactDOMServer.renderToString(
-                        getStatusTable({
-                          type: "deviceStatusMarker",
-                          start,
-                          end,
-                          deviceStatus
-                        })
-                      ),
-                      icon: utils.getIcon(deviceStatus, activity)
-                    },
-                    geometry: start.location
-                  },
-                  {
-                    type: "Feature",
-                    properties: {
-                      description: ReactDOMServer.renderToString(
-                        getStatusTable({
-                          type: "deviceStatusMarker",
-                          start,
-                          end,
-                          deviceStatus,
-                          activity,
-                          duration
-                        })
-                      ),
-                      icon: utils.getIcon(deviceStatus, activity, "circle")
-                    },
-                    geometry: end.location
-                  }
-                ]
-              : [
-                  ...features,
-                  {
-                    type: "Feature",
-                    properties: {
-                      description: ReactDOMServer.renderToString(
-                        getStatusTable({
-                          type: "deviceStatusMarker",
-                          start,
-                          end,
-                          deviceStatus,
-                          activity,
-                          duration
-                        })
-                      ),
-                      icon: utils.getIcon(deviceStatus, activity)
-                    },
-                    geometry: end.location || start.location
-                  }
-                ],
-          []
+  deviceStatusMarkers.forEach(deviceStatusMarker => {
+    const { start, end, deviceStatus, activity } = deviceStatusMarker;
+    if (start || end) {
+      const variant = utils.getIcon(activity || deviceStatus);
+      const markerElement = document.createElement("div");
+      markerElement.className = "marker-container";
+
+      markerElement.innerHTML = `<img src=${utils.getImageSource(
+        variant
+      )} alt=${variant} class="marker-image"/>`;
+
+      markerElement.addEventListener("mouseenter", event =>
+        mouseClickCallback(
+          event,
+          mapRef,
+          popupRef,
+          deviceStatusMarker,
+          getStatusTable
         )
-      }
-    },
-    layout: {
-      "icon-image": "{icon}",
-      "icon-allow-overlap": false
+      );
+      markerElement.addEventListener("mouseleave", () =>
+        mouseLeaveCallback(mapRef, popupRef)
+      );
+      const location =
+        start && start.location
+          ? start.location.coordinates
+          : end && end.location
+          ? end.location.coordinates
+          : [];
+      markerList.push(
+        new mapboxgl.Marker(markerElement)
+          .setLngLat(location)
+          .addTo(mapRef.current)
+      );
     }
   });
 
@@ -202,9 +204,10 @@ const plotMarkers = (mapRef, popupRef, deviceStatusMarkers, getStatusTable) => {
   mapRef.current.on("mouseleave", newLayerId, () =>
     mouseLeaveCallback(mapRef, popupRef)
   );
+  markersRef.current = markerList;
 };
 
 export default {
   plotLine,
-  plotMarkers
+  useMarkers
 };
