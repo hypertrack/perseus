@@ -15,14 +15,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install Packages
-        run: npm install
-      - name: Create build
-        run: npm run build
+
+      - name: Build
+        run: |
+          npm
+          yarn build
+
       - name: Deploy to GH Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: ${{ github.event.push.after}}
           BRANCH: master
           FOLDER: build
