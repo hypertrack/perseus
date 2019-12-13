@@ -1,14 +1,14 @@
 <div name="ht-atlas" style="display: flex; align-items: center">
   <img src="https://www.hypertrack.com/green.eeca143346e01b96d600.svg" alt="HyperTrack logo" title="HyperTrack" align="left" style="marmargin-right: 0.5rem" height="40" />
-  <h1 align="left" style="font-family: monospace;"> | Atlas </h1> 
+  <h1 align="left" style="font-family: monospace;"> | Perseus </h1> 
 </div>
 <br/>
 
 ![](https://img.shields.io/david/hypertrack/atlas?style=flat-square) ![](https://img.shields.io/github/license/hypertrack/atlas?style=flat-square) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` or `LineString` geoJSON. Use this web app to debug your device's trips, investigate location & activity events in your trip.
+Perseus is a ReactJS sample application to visualise a Hypertrack `trip_summary` or `LineString` geoJSON. Use this web app to debug your device's trips, investigate location & activity events in your trip.
 
-<!-- > 💬 [Check out the blog post about Atlas here](__BLOG_POST_LINK_HERE__) -->
+<!-- > 💬 [Check out the blog post about Perseus here](__BLOG_POST_LINK_HERE__) -->
 
 <p align="center">
   <img src="public/atlas_demo.gif" />
@@ -27,7 +27,7 @@ Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` o
 
 ## Features
 
-Supported features of Hypertrack Atlas:
+Perseus features:
 
 <table>
   <tr>
@@ -122,10 +122,10 @@ yarn start
 
 ## Usage
 
-You'd be using Atlas in one of 2 ways:
+You'd be using Perseus in one of 2 ways:
 
 1. Start afresh with no data, One would acquire a `trip_summary` or `LineString` geoJSON; either paste the JSON as text in the text field, or upload one of the JSON type through the file input field. Once validated, `Update` button, would close the modal, and plot the location data on to the map
-2. Atlas is loaded with a gist URL. In such scenario, Atlas would fetch the json from the gist (both public gists, and private gists are supported) and update the text field. Once validated, `Update` button, would close the modal, and plot the location data on to the map. <br/> The gist url can be supplied as a [URL search parameter](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) `gist`. <br/> Eg: `https://hypertrack.github.io/atlas/?gist=https://gist.github.com/SahRckr/c6ee0dd9b7bd605f8ca9d9b43561387d`
+2. Perseus is loaded with a gist URL. In such scenario, Perseus would fetch the json from the gist (both public gists, and private gists are supported) and update the text field. Once validated, `Update` button, would close the modal, and plot the location data on to the map. <br/> The gist url can be supplied as a [URL search parameter](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) `gist`. <br/> Eg: `https://hypertrack.github.io/atlas/?gist=https://gist.github.com/SahRckr/c6ee0dd9b7bd605f8ca9d9b43561387d`
 
 The validation of input will prohibit the input overlay to close and list out known problems in the input.
 
