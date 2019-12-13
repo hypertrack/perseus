@@ -1,4 +1,4 @@
-<div style="display: flex; align-items: center">
+<div name="ht-atlas" style="display: flex; align-items: center">
   <img src="https://www.hypertrack.com/green.eeca143346e01b96d600.svg" alt="HyperTrack logo" title="HyperTrack" align="left" style="marmargin-right: 0.5rem" height="40" />
   <h1 align="left" style="font-family: monospace;"> | Atlas </h1> 
 </div>
@@ -19,7 +19,7 @@ Atlas is a ReactJS sample application to visualise a Hypertrack `trip_summary` o
 - [Hypertrack Altas](#ht-atlas)
 - [Overview](#overview)
 - [Features](#features)
-- [Local Installation and setup](#installation-and-setup)
+- [Local Installation and setup](#local-installation-and-setup)
 - [Usage](#usage)
 - [Related](#related)
 - [Credits](#credits)
