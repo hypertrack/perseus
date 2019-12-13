@@ -16,7 +16,7 @@ Perseus is a ReactJS sample application to visualise a Hypertrack `trip_summary`
 
 ## Overview
 
-- [Hypertrack Altas](#ht-perseus)
+- [Hypertrack Perseus](#ht-perseus)
 - [Overview](#overview)
 - [Features](#features)
 - [Local Installation and setup](#local-installation-and-setup)
