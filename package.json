@@ -1,8 +1,8 @@
 {
-  "name": "atlas",
+  "name": "perseus",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hypertrack.github.io/atlas",
+  "homepage": "https://hypertrack.github.io/perseus",
   "dependencies": {
     "@blueprintjs/core": "^3.22.0",
     "ajv": "^6.10.2",
@@ -14,7 +14,7 @@
   "author": "Sahil Satishkumar <sahil@hypertrack.com>",
   "license": "MIT",
   "keywords": [
-    "atlas",
+    "perseus",
     "hypertrack",
     "trip_summary",
     "LineString",
