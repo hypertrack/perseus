@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/atlas/static/css/main.258030b7.chunk.css",
-    "main.js": "/atlas/static/js/main.dcf96389.chunk.js",
-    "main.js.map": "/atlas/static/js/main.dcf96389.chunk.js.map",
-    "runtime-main.js": "/atlas/static/js/runtime-main.1e95324d.js",
-    "runtime-main.js.map": "/atlas/static/js/runtime-main.1e95324d.js.map",
-    "static/css/2.f5ee52bb.chunk.css": "/atlas/static/css/2.f5ee52bb.chunk.css",
-    "static/js/2.8b66b1b1.chunk.js": "/atlas/static/js/2.8b66b1b1.chunk.js",
-    "static/js/2.8b66b1b1.chunk.js.map": "/atlas/static/js/2.8b66b1b1.chunk.js.map",
-    "index.html": "/atlas/index.html",
-    "precache-manifest.cd6fe0eebbb30b13fbf079f9dfb17008.js": "/atlas/precache-manifest.cd6fe0eebbb30b13fbf079f9dfb17008.js",
-    "service-worker.js": "/atlas/service-worker.js",
-    "static/css/2.f5ee52bb.chunk.css.map": "/atlas/static/css/2.f5ee52bb.chunk.css.map",
-    "static/css/main.258030b7.chunk.css.map": "/atlas/static/css/main.258030b7.chunk.css.map",
-    "static/media/blueprint-icons.css": "/atlas/static/media/icons-20.d1f0f6c1.ttf"
+    "main.css": "/perseus/static/css/main.258030b7.chunk.css",
+    "main.js": "/perseus/static/js/main.7bbf2c85.chunk.js",
+    "main.js.map": "/perseus/static/js/main.7bbf2c85.chunk.js.map",
+    "runtime-main.js": "/perseus/static/js/runtime-main.11cf4bd5.js",
+    "runtime-main.js.map": "/perseus/static/js/runtime-main.11cf4bd5.js.map",
+    "static/css/2.6402124f.chunk.css": "/perseus/static/css/2.6402124f.chunk.css",
+    "static/js/2.590f1484.chunk.js": "/perseus/static/js/2.590f1484.chunk.js",
+    "static/js/2.590f1484.chunk.js.map": "/perseus/static/js/2.590f1484.chunk.js.map",
+    "index.html": "/perseus/index.html",
+    "precache-manifest.0c82a72b23547d7f847ccc08de01ead5.js": "/perseus/precache-manifest.0c82a72b23547d7f847ccc08de01ead5.js",
+    "service-worker.js": "/perseus/service-worker.js",
+    "static/css/2.6402124f.chunk.css.map": "/perseus/static/css/2.6402124f.chunk.css.map",
+    "static/css/main.258030b7.chunk.css.map": "/perseus/static/css/main.258030b7.chunk.css.map",
+    "static/media/blueprint-icons.css": "/perseus/static/media/icons-20.d1f0f6c1.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.1e95324d.js",
-    "static/css/2.f5ee52bb.chunk.css",
-    "static/js/2.8b66b1b1.chunk.js",
+    "static/js/runtime-main.11cf4bd5.js",
+    "static/css/2.6402124f.chunk.css",
+    "static/js/2.590f1484.chunk.js",
     "static/css/main.258030b7.chunk.css",
-    "static/js/main.dcf96389.chunk.js"
+    "static/js/main.7bbf2c85.chunk.js"
   ]
 }
