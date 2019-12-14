@@ -1,5 +1,8 @@
 import React from "react";
 import mapboxgl from "mapbox-gl";
+import { Intent } from "@blueprintjs/core";
+
+import { utils } from "./";
 
 const useMap = (container, options) => {
   const { accessToken, ...rest } = options;
@@ -46,10 +49,26 @@ const useAccessToken = (urlToken, errorHandler) => {
     if (!urlToken) {
       const knownToken = localStorage.getItem("accessToken");
       if (knownToken) {
+        utils.AppToaster.show({
+          timeout: 2000,
+          intent: Intent.SUCCESS,
+          message: "👋Welcome back"
+        });
         mapboxgl.accessToken = knownToken;
         updateAccessToken(knownToken);
       }
-    } else localStorage.setItem("accessToken", urlToken);
+    } else {
+      utils.AppToaster.show({
+        icon: "tick",
+        intent: Intent.SUCCESS,
+        message: (
+          <>
+            <code>accessToken</code> set.
+          </>
+        )
+      });
+      localStorage.setItem("accessToken", urlToken);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlToken]);
   React.useEffect(() => {

@@ -1,3 +1,5 @@
+import { Position, Toaster } from "@blueprintjs/core";
+
 import { classes } from "./";
 const trip_schema = require("../template/trip_schema.json");
 const LineString_schema = require("../template/LineString_schema.json");
@@ -112,6 +114,10 @@ const validateInputJSON = json => {
   return !valid ? validate.errors : false;
 };
 
+const AppToaster = Toaster.create({
+  position: Position.BOTTOM_RIGHT
+});
+
 export default {
   parseMarker,
   getIcon,
@@ -119,5 +125,6 @@ export default {
   markersByType,
   validateInputJSON,
   valid_device_status_states,
-  getImageSource
+  getImageSource,
+  AppToaster
 };
