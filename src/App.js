@@ -23,15 +23,16 @@ const shed_animation = params.get("shed_animation") === "true";
 
 const urlAccessToken = params.get("accessToken");
 
-const hash =
-  params.get("hash") && params.get("hash") === "false" ? false : true;
+const hash = !(params.get("hash") && params.get("hash") === "false");
 
 const coordinates = JSON.parse(locationArrays);
 
 function App() {
+  const [mainSet, updateMainSet] = React.useState([]);
   const [showTripModal, updateShowTripModal] = React.useState(true);
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
+  // const [userAccessToken, updateUserAccessToken] = React.useState(undefined);
   const accessToken = hooks.useAccessToken(urlAccessToken, updateError);
   const fitBoundsOptions = { linear: shed_animation };
   const mapRef = hooks.useMap(mapContainerId, {
@@ -42,6 +43,8 @@ function App() {
   const locationPopupRef = hooks.usePopup(mapRef);
   const deviceStatusPopupRef = hooks.usePopup(mapRef, { offset: 10 });
   const markersRef = React.useRef([]);
+
+  const secondInput = Boolean(mainSet.length) > 1;
 
   React.useEffect(() => {
     if (accessToken) {
@@ -76,61 +79,80 @@ function App() {
           mapRef.current.on("load", () => handleJsonUpdate(tripJSON, true));
       }
     }
+    //  else {
+    //   const newAccessToken = window.prompt("Enter your Mapbox Access Token:");
+    //   if (newAccessToken) updateUserAccessToken(newAccessToken);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
+  const addSecondJson = firstJson => {
+    if (!error) updateMainSet([firstJson]);
+  };
+
   const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
     updateJson(json);
-    if (!fromLocalstorage)
+    const newMainSet = [...mainSet, json];
+    if (secondInput) updateMainSet(newMainSet);
+    if (!fromLocalstorage && !secondInput)
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
-    if (json.type === "LineString") {
-      const line = new classes.Line(json);
-      mapUtils.plotLine(
-        mapRef,
-        locationPopupRef,
-        line,
-        getStatusTable,
-        fitBoundsOptions
-      );
-      if (!showModal) updateShowTripModal(false);
-    } else {
-      try {
-        const { locations, markers } = json.summary;
-        const line = new classes.Line(locations);
-        const deviceStatusMarkers = utils.markersByType(markers)(
-          "device_status"
-        );
-        mapUtils.plotLine(
+    newMainSet.forEach((setItem, jsonIndex) => {
+      if (json.type === "LineString") {
+        const line = new classes.Line(json);
+        mapUtils.plotLine({
           mapRef,
-          locationPopupRef,
+          popupRef: locationPopupRef,
           line,
           getStatusTable,
-          fitBoundsOptions
-        );
-        mapUtils.useMarkers(
-          mapRef,
-          deviceStatusPopupRef,
-          markersRef,
-          deviceStatusMarkers,
-          getStatusTable
-        );
-      } catch (error) {
-        console.error(error);
-        updateError(error);
+          fitBoundsOptions,
+          jsonIndex
+        });
+        if (!showModal) updateShowTripModal(false);
+      } else {
+        try {
+          const { locations, markers } = json.summary;
+          const line = new classes.Line(locations);
+          const deviceStatusMarkers = utils.markersByType(markers)(
+            "device_status"
+          );
+          mapUtils.plotLine({
+            mapRef,
+            popupRef: locationPopupRef,
+            line,
+            getStatusTable,
+            fitBoundsOptions,
+            jsonIndex
+          });
+          mapUtils.useMarkers({
+            mapRef,
+            popupRef: deviceStatusPopupRef,
+            markersRef,
+            deviceStatusMarkers,
+            getStatusTable,
+            jsonIndex
+          });
+        } catch (error) {
+          console.error(error);
+          updateError(error);
+        }
       }
-    }
+    });
   };
+
+  const trip = Boolean(mainSet.length) ? undefined : json;
 
   return (
     <div className="app-container">
       {accessToken && <div id={mapContainerId} />}
       <TripInfoModal
         fetchError={error}
-        trip={json}
+        trip={trip}
         showTripModal={showTripModal}
         showModal={() => updateShowTripModal(true)}
         hideModal={() => updateShowTripModal(false)}
         updateJson={handleJsonUpdate}
+        addSecondJson={addSecondJson}
+        secondInput={Boolean(mainSet.length)}
       />
     </div>
   );

@@ -19,7 +19,9 @@ const TripInfoModal = ({
   updateJson,
   hideModal,
   showModal,
-  fetchError
+  fetchError,
+  addSecondJson,
+  secondInput
 }) => {
   const [userJson, updateUserJson] = React.useState(
     JSON.stringify(trip, null, "\t")
@@ -31,9 +33,9 @@ const TripInfoModal = ({
 
   React.useEffect(() => {
     if (JSON.stringify(trip) !== JSON.stringify(userJson))
-      updateUserJson(JSON.stringify(trip, null, "\t"));
+      updateUserJson(trip ? JSON.stringify(trip, null, "\t") : "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trip]);
+  }, [trip, secondInput]);
 
   React.useEffect(() => {
     if (fetchError && fetchError !== errors) updateErrors(fetchError);
@@ -64,6 +66,8 @@ const TripInfoModal = ({
     hideModal();
   };
 
+  const prepareForSecondJson = e => addSecondJson(trip);
+
   const handleFileUpload = event => {
     event && event.preventDefault();
     const fileReader = new FileReader();
@@ -76,7 +80,7 @@ const TripInfoModal = ({
       updateUserJson(derivedFileValue);
       if (!validateInput(tripJSON)) {
         updateJson(tripJSON);
-        hideModal();
+        if (!secondInput) hideModal();
       }
     };
   };
@@ -167,6 +171,14 @@ const TripInfoModal = ({
               onInputChange={handleFileUpload}
               inputProps={{ accept: ".json" }}
             />
+            <Button
+              icon="plus"
+              className="add-new-json"
+              disabled={(errors && errors.length) || !userJson || secondInput}
+              onClick={prepareForSecondJson}
+            >
+              Add another JSON
+            </Button>
             <Button
               disabled={(errors && errors.length) || !userJson}
               onClick={handleCloseModal}

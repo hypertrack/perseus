@@ -14,22 +14,19 @@ const computeBounds = coordinates => {
   );
 };
 
-const getNewLayerRemoveOldLayer = (mapRef, primitive) => {
-  let newLayerId = primitive;
-  if (
-    mapRef.current.getLayer(primitive) ||
-    mapRef.current.getLayer(`${primitive}1`)
-  ) {
-    newLayerId = mapRef.current.getLayer(primitive)
-      ? `${primitive}1`
-      : primitive;
-    const oldLayerId = mapRef.current.getLayer(primitive)
-      ? primitive
-      : `${primitive}1`;
-    mapRef.current.removeLayer(oldLayerId);
-    mapRef.current.removeSource(oldLayerId);
+const getNewLayerRemoveOldLayer = async (mapRef, primitive, jsonIndex) => {
+  let layerId = `${primitive}_${jsonIndex}`;
+  if (!Boolean(jsonIndex)) {
+    if (mapRef.current.getLayer(`${primitive}_${0}`)) {
+      await mapRef.current.removeLayer(`${primitive}_${0}`);
+      await mapRef.current.removeSource(`${primitive}_${0}`);
+    }
+    if (mapRef.current.getLayer(`${primitive}_${1}`)) {
+      await mapRef.current.removeLayer(`${primitive}_${1}`);
+      await mapRef.current.removeSource(`${primitive}_${1}`);
+    }
   }
-  return newLayerId;
+  return layerId;
 };
 
 const mouseEnterCallback = (e, mapRef, popupRef) => {
@@ -77,8 +74,15 @@ const mouseLeaveCallback = (mapRef, popupRef) => {
   popupRef.current.remove();
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
-  let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
+const plotLine = async ({
+  mapRef,
+  popupRef,
+  line,
+  getStatusTable,
+  fitBoundsOptions,
+  jsonIndex
+}) => {
+  let newLayerId = await getNewLayerRemoveOldLayer(mapRef, "route", jsonIndex);
   mapRef.current
     .addLayer({
       id: newLayerId,
@@ -105,7 +109,11 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 
-  newLayerId = getNewLayerRemoveOldLayer(mapRef, "locationMarkers");
+  newLayerId = await getNewLayerRemoveOldLayer(
+    mapRef,
+    "locationMarkers",
+    jsonIndex
+  );
   mapRef.current.addLayer({
     id: newLayerId,
     type: "symbol",
@@ -148,18 +156,23 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
   );
 };
 
-const useMarkers = (
+const useMarkers = async ({
   mapRef,
   popupRef,
   markersRef,
   deviceStatusMarkers,
   getStatusTable,
-  fitBoundsOptions
-) => {
-  if (markersRef.current && markersRef.current.length)
+  fitBoundsOptions,
+  jsonIndex
+}) => {
+  if (markersRef.current && markersRef.current.length && jsonIndex !== 1)
     markersRef.current.forEach(marker => marker.remove());
   let markerList = [];
-  const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
+  const newLayerId = await getNewLayerRemoveOldLayer(
+    mapRef,
+    "deviceStatusMarkers",
+    jsonIndex
+  );
   deviceStatusMarkers.forEach(deviceStatusMarker => {
     const { start, end, deviceStatus, activity } = deviceStatusMarker;
     if (start || end) {
