@@ -19,7 +19,9 @@ const TripInfoModal = ({
   updateJson,
   hideModal,
   showModal,
-  fetchError
+  fetchError,
+  currentJsonIndex,
+  goToPageZero
 }) => {
   const [userJson, updateUserJson] = React.useState(
     JSON.stringify(trip, null, "\t")
@@ -48,11 +50,11 @@ const TripInfoModal = ({
     return Boolean(validationErrors);
   };
 
-  const handleUpdateJson = e => {
+  const handleUpdateJson = addNewJson => {
     try {
       const updatedJson = JSON.parse(userJson);
-      updateJson(updatedJson);
-      hideModal();
+      if (addNewJson) updateJson(updatedJson, false, !currentJsonIndex);
+      else updateJson(updatedJson);
     } catch (error) {
       console.error(error);
       updateErrors(error);
@@ -94,6 +96,18 @@ const TripInfoModal = ({
       }
   };
 
+  const checkPreviousJson = event => {
+    event && event.preventDefault();
+    try {
+      const updatedJson = JSON.parse(userJson);
+      if (updatedJson) updateJson(updatedJson, false, true);
+      goToPageZero();
+    } catch (error) {
+      console.error(error);
+      updateErrors(error);
+    }
+  };
+
   return (
     <>
       <Button
@@ -112,7 +126,7 @@ const TripInfoModal = ({
         <div className={Classes.DIALOG_BODY}>
           <div className="dialog-container">
             <TextArea
-              value={userJson}
+              value={userJson || ""}
               disabled={false}
               onChange={e => updateUserJson(e.target.value)}
               className={"user-summary-input"}
@@ -167,6 +181,25 @@ const TripInfoModal = ({
               onInputChange={handleFileUpload}
               inputProps={{ accept: ".json" }}
             />
+            {currentJsonIndex ? (
+              <Button
+                icon="caret-left"
+                className="add-new-json"
+                disabled={errors && errors.length}
+                onClick={checkPreviousJson}
+              >
+                Check previous JSON
+              </Button>
+            ) : (
+              <Button
+                icon="plus"
+                className="add-new-json"
+                disabled={(errors && errors.length) || !userJson}
+                onClick={() => handleUpdateJson(true)}
+              >
+                Add another JSON
+              </Button>
+            )}
             <Button
               disabled={(errors && errors.length) || !userJson}
               onClick={handleCloseModal}

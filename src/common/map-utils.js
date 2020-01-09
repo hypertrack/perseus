@@ -77,8 +77,20 @@ const mouseLeaveCallback = (mapRef, popupRef) => {
   popupRef.current.remove();
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
-  let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
+const getLayerName = index => primitiveName => primitiveName + index;
+
+const plotLine = ({
+  mapRef,
+  popupRef,
+  line,
+  getStatusTable,
+  fitBoundsOptions,
+  index
+}) => {
+  let newLayerId = getNewLayerRemoveOldLayer(
+    mapRef,
+    getLayerName(index)`route`
+  );
   mapRef.current
     .addLayer({
       id: newLayerId,
@@ -105,7 +117,10 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 
-  newLayerId = getNewLayerRemoveOldLayer(mapRef, "locationMarkers");
+  newLayerId = getNewLayerRemoveOldLayer(
+    mapRef,
+    getLayerName(index)`locationMarkers`
+  );
   mapRef.current.addLayer({
     id: newLayerId,
     type: "symbol",
@@ -148,18 +163,22 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
   );
 };
 
-const useMarkers = (
+const useMarkers = ({
   mapRef,
   popupRef,
   markersRef,
   deviceStatusMarkers,
   getStatusTable,
-  fitBoundsOptions
-) => {
+  fitBoundsOptions,
+  index
+}) => {
   if (markersRef.current && markersRef.current.length)
     markersRef.current.forEach(marker => marker.remove());
   let markerList = [];
-  const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
+  const newLayerId = getNewLayerRemoveOldLayer(
+    mapRef,
+    getLayerName(index)`deviceStatusMarkers`
+  );
   deviceStatusMarkers.forEach(deviceStatusMarker => {
     const { start, end, deviceStatus, activity } = deviceStatusMarker;
     if (start || end) {

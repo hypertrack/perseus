@@ -30,18 +30,29 @@ const coordinates = JSON.parse(locationArrays);
 
 function App() {
   const [showTripModal, updateShowTripModal] = React.useState(true);
+
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
+
+  const [state, dispatch] = React.useReducer(utils.baseReducer, {
+    jsons: [],
+    currentJson: 0
+  });
+  const { jsons, currentJson } = state || {};
+  console.table(state);
+
   const accessToken = hooks.useAccessToken(urlAccessToken, updateError);
   const fitBoundsOptions = { linear: shed_animation };
+
   const mapRef = hooks.useMap(mapContainerId, {
     accessToken,
     hash,
     fitBoundsOptions
   });
+  const markersRef = React.useRef([]);
+
   const locationPopupRef = hooks.usePopup(mapRef);
   const deviceStatusPopupRef = hooks.usePopup(mapRef, { offset: 10 });
-  const markersRef = React.useRef([]);
 
   React.useEffect(() => {
     if (accessToken) {
@@ -79,47 +90,69 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
-  const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
-    updateJson(json);
-    if (!fromLocalstorage)
-      localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
-    if (json.type === "LineString") {
-      const line = new classes.Line(json);
-      mapUtils.plotLine(
-        mapRef,
-        locationPopupRef,
-        line,
-        getStatusTable,
-        fitBoundsOptions
-      );
-      if (!showModal) updateShowTripModal(false);
-    } else {
-      try {
-        const { locations, markers } = json.summary;
-        const line = new classes.Line(locations);
-        const deviceStatusMarkers = utils.markersByType(markers)(
-          "device_status"
-        );
-        mapUtils.plotLine(
+  React.useEffect(() => {
+    if (jsons) updateJson(jsons[currentJson]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentJson]);
+
+  React.useEffect(() => {
+    const indexNameMap = {
+      0: "_zero_",
+      1: "_one_"
+    };
+    jsons.forEach((json, index) => {
+      if (json.type === "LineString") {
+        const line = new classes.Line(json);
+        mapUtils.plotLine({
           mapRef,
-          locationPopupRef,
+          popupRef: locationPopupRef,
           line,
           getStatusTable,
-          fitBoundsOptions
-        );
-        mapUtils.useMarkers(
-          mapRef,
-          deviceStatusPopupRef,
-          markersRef,
-          deviceStatusMarkers,
-          getStatusTable
-        );
-      } catch (error) {
-        console.error(error);
-        updateError(error);
+          fitBoundsOptions,
+          index: indexNameMap[index]
+        });
+      } else {
+        try {
+          const { locations, markers } = json.summary;
+          const line = new classes.Line(locations);
+          const deviceStatusMarkers = utils.markersByType(markers)(
+            "device_status"
+          );
+          mapUtils.plotLine({
+            mapRef,
+            popupRef: locationPopupRef,
+            line,
+            getStatusTable,
+            fitBoundsOptions,
+            index: indexNameMap[index]
+          });
+          mapUtils.useMarkers({
+            mapRef,
+            popupRef: deviceStatusPopupRef,
+            markersRef,
+            deviceStatusMarkers,
+            getStatusTable,
+            index: indexNameMap[index]
+          });
+        } catch (error) {
+          console.error(error);
+          updateError(error);
+        }
       }
-    }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jsons.length]);
+
+  const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
+    updateJson(json);
+    dispatch({ type: utils.reducerActions.addNewJson, json });
+    if (!fromLocalstorage)
+      localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
+    if (!showModal) updateShowTripModal(false);
   };
+
+  const goToPageZero = () =>
+    dispatch({ type: utils.reducerActions.changeJsonIndex, index: 0 });
 
   return (
     <div className="app-container">
@@ -131,6 +164,8 @@ function App() {
         showModal={() => updateShowTripModal(true)}
         hideModal={() => updateShowTripModal(false)}
         updateJson={handleJsonUpdate}
+        currentJsonIndex={currentJson}
+        goToPageZero={goToPageZero}
       />
     </div>
   );
