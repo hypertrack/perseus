@@ -79,6 +79,11 @@ const mouseLeaveCallback = (mapRef, popupRef) => {
 
 const getLayerName = index => primitiveName => primitiveName + index;
 
+const lineColorMap = {
+  _zero_: "#6397FF",
+  _one_: "#FF8D69"
+};
+
 const plotLine = ({
   mapRef,
   popupRef,
@@ -108,7 +113,7 @@ const plotLine = ({
         "line-cap": "round"
       },
       paint: {
-        "line-color": "#6f4cff",
+        "line-color": lineColorMap[index],
         "line-width": 8
       }
     })
@@ -172,49 +177,47 @@ const useMarkers = ({
   fitBoundsOptions,
   index
 }) => {
-  if (markersRef.current && markersRef.current.length)
-    markersRef.current.forEach(marker => marker.remove());
-  let markerList = [];
   const newLayerId = getNewLayerRemoveOldLayer(
     mapRef,
     getLayerName(index)`deviceStatusMarkers`
   );
-  deviceStatusMarkers.forEach(deviceStatusMarker => {
-    const { start, end, deviceStatus, activity } = deviceStatusMarker;
-    if (start || end) {
-      const variant = utils.getIcon(activity || deviceStatus);
-      const markerElement = document.createElement("div");
-      markerElement.className = "marker-container";
+  const markerList = deviceStatusMarkers
+    .map(deviceStatusMarker => {
+      const { start, end, deviceStatus, activity } = deviceStatusMarker;
+      if (start || end) {
+        const variant = utils.getIcon(activity || deviceStatus);
+        const markerElement = document.createElement("div");
+        markerElement.className = "marker-container";
 
-      markerElement.innerHTML = `<img src=${utils.getImageSource(
-        variant
-      )} alt=${variant} class="marker-image"/>`;
+        markerElement.innerHTML = `<img src=${utils.getImageSource(
+          variant
+        )} alt=${variant} class="marker-image"/>`;
 
-      markerElement.addEventListener("mouseenter", event =>
-        mouseClickCallback(
-          event,
-          mapRef,
-          popupRef,
-          deviceStatusMarker,
-          getStatusTable
-        )
-      );
-      markerElement.addEventListener("mouseleave", () =>
-        mouseLeaveCallback(mapRef, popupRef)
-      );
-      const location =
-        start && start.location
-          ? start.location.coordinates
-          : end && end.location
-          ? end.location.coordinates
-          : [];
-      markerList.push(
-        new mapboxgl.Marker(markerElement)
+        markerElement.addEventListener("mouseenter", event =>
+          mouseClickCallback(
+            event,
+            mapRef,
+            popupRef,
+            deviceStatusMarker,
+            getStatusTable
+          )
+        );
+        markerElement.addEventListener("mouseleave", () =>
+          mouseLeaveCallback(mapRef, popupRef)
+        );
+        const location =
+          start && start.location
+            ? start.location.coordinates
+            : end && end.location
+            ? end.location.coordinates
+            : [];
+        return new mapboxgl.Marker(markerElement)
           .setLngLat(location)
-          .addTo(mapRef.current)
-      );
-    }
-  });
+          .addTo(mapRef.current);
+      }
+      return null;
+    })
+    .filter(Boolean);
 
   mapRef.current.on("mouseenter", newLayerId, event =>
     mouseEnterCallback(event, mapRef, popupRef)

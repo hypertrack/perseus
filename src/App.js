@@ -39,7 +39,6 @@ function App() {
     currentJson: 0
   });
   const { jsons, currentJson } = state || {};
-  console.table(state);
 
   const accessToken = hooks.useAccessToken(urlAccessToken, updateError);
   const fitBoundsOptions = { linear: shed_animation };
@@ -79,12 +78,20 @@ function App() {
           });
       } else if (coordinates && coordinates.length) {
         const line = new classes.Line({ coordinates, type: "LineString" });
-        mapRef.current.on("load", () => handleJsonUpdate(line, true, false));
+        mapRef.current.on("load", () =>
+          handleJsonUpdate({
+            json: line,
+            fromLocalStorage: true,
+            showModal: false
+          })
+        );
       } else {
         const previousJSON = localStorage.getItem("previousJSON");
         const tripJSON = JSON.parse(previousJSON);
         if (tripJSON)
-          mapRef.current.on("load", () => handleJsonUpdate(tripJSON, true));
+          mapRef.current.on("load", () =>
+            handleJsonUpdate({ json: tripJSON, fromLocalStorage: true })
+          );
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,12 +150,17 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jsons.length]);
 
-  const handleJsonUpdate = (json, fromLocalstorage, showModal) => {
+  const handleJsonUpdate = ({
+    json,
+    fromLocalstorage,
+    showModal,
+    noPageChange
+  }) => {
     updateJson(json);
-    dispatch({ type: utils.reducerActions.addNewJson, json });
+    dispatch({ type: utils.reducerActions.addNewJson, json, noPageChange });
     if (!fromLocalstorage)
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
-    if (!showModal) updateShowTripModal(false);
+    updateShowTripModal(!showModal);
   };
 
   const goToPageZero = () =>

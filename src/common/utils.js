@@ -131,9 +131,9 @@ const actionMap = {
   },
   [actions.addNewJson]: (state, payload) => {
     let newState = { ...state };
-    const { json } = payload;
+    const { json, noPageChange } = payload;
     newState.jsons[state.currentJson] = json;
-    const newPosition = 1;
+    const newPosition = noPageChange ? state.currentJson : 1;
     newState.currentJson = newPosition;
     return newState;
   },

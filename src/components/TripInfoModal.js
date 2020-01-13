@@ -13,6 +13,8 @@ import { utils } from "./../common";
 
 import "./component.css";
 
+const getDialogTitle = modify => (modify ? "Modify data" : "Add your own JSON");
+
 const TripInfoModal = ({
   trip,
   showTripModal,
@@ -53,8 +55,10 @@ const TripInfoModal = ({
   const handleUpdateJson = addNewJson => {
     try {
       const updatedJson = JSON.parse(userJson);
-      if (addNewJson) updateJson(updatedJson, false, !currentJsonIndex);
-      else updateJson(updatedJson);
+      if (addNewJson)
+        updateJson({ json: updatedJson, showModal: !currentJsonIndex });
+      else
+        updateJson({ json: updatedJson, showModal: true, noPageChange: true });
     } catch (error) {
       console.error(error);
       updateErrors(error);
@@ -119,9 +123,12 @@ const TripInfoModal = ({
       </Button>
       <Dialog
         isOpen={errors || showTripModal}
-        title="Add your own JSON"
+        title={getDialogTitle(Boolean(trip))}
         onClose={hideModal}
         className="dialog"
+        isCloseButtonShown={false}
+        canEscapeKeyClose={false}
+        canOutsideClickClose={false}
       >
         <div className={Classes.DIALOG_BODY}>
           <div className="dialog-container">
@@ -209,7 +216,7 @@ const TripInfoModal = ({
             <Button
               intent={Intent.PRIMARY}
               disabled={(errors && errors.length) || !userJson}
-              onClick={handleUpdateJson}
+              onClick={() => handleUpdateJson()}
             >
               Update
             </Button>
