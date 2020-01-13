@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "871c3c2157550d1ee3e2bec5e6b4ab32",
+    "revision": "af7215809dad7cd70881e2a909c40125",
     "url": "/perseus/index.html"
   },
   {
-    "revision": "59b54e339f4376cd6aaa",
+    "revision": "03f7d8ad72ed3211e7d4",
     "url": "/perseus/static/css/2.6402124f.chunk.css"
   },
   {
-    "revision": "0534e7d0a951178e5239",
+    "revision": "7422924ad5835ed5d159",
     "url": "/perseus/static/css/main.258030b7.chunk.css"
   },
   {
-    "revision": "59b54e339f4376cd6aaa",
-    "url": "/perseus/static/js/2.590f1484.chunk.js"
+    "revision": "03f7d8ad72ed3211e7d4",
+    "url": "/perseus/static/js/2.e5d5042b.chunk.js"
   },
   {
-    "revision": "0534e7d0a951178e5239",
-    "url": "/perseus/static/js/main.7bbf2c85.chunk.js"
+    "revision": "7422924ad5835ed5d159",
+    "url": "/perseus/static/js/main.c93a35e8.chunk.js"
   },
   {
     "revision": "73065bad705387a39ce8",

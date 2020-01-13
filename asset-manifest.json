@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/perseus/static/css/main.258030b7.chunk.css",
-    "main.js": "/perseus/static/js/main.7bbf2c85.chunk.js",
-    "main.js.map": "/perseus/static/js/main.7bbf2c85.chunk.js.map",
+    "main.js": "/perseus/static/js/main.c93a35e8.chunk.js",
+    "main.js.map": "/perseus/static/js/main.c93a35e8.chunk.js.map",
     "runtime-main.js": "/perseus/static/js/runtime-main.11cf4bd5.js",
     "runtime-main.js.map": "/perseus/static/js/runtime-main.11cf4bd5.js.map",
     "static/css/2.6402124f.chunk.css": "/perseus/static/css/2.6402124f.chunk.css",
-    "static/js/2.590f1484.chunk.js": "/perseus/static/js/2.590f1484.chunk.js",
-    "static/js/2.590f1484.chunk.js.map": "/perseus/static/js/2.590f1484.chunk.js.map",
+    "static/js/2.e5d5042b.chunk.js": "/perseus/static/js/2.e5d5042b.chunk.js",
+    "static/js/2.e5d5042b.chunk.js.map": "/perseus/static/js/2.e5d5042b.chunk.js.map",
     "index.html": "/perseus/index.html",
-    "precache-manifest.0c82a72b23547d7f847ccc08de01ead5.js": "/perseus/precache-manifest.0c82a72b23547d7f847ccc08de01ead5.js",
+    "precache-manifest.4e9cf4e1a64985a31892728aa426a50d.js": "/perseus/precache-manifest.4e9cf4e1a64985a31892728aa426a50d.js",
     "service-worker.js": "/perseus/service-worker.js",
     "static/css/2.6402124f.chunk.css.map": "/perseus/static/css/2.6402124f.chunk.css.map",
     "static/css/main.258030b7.chunk.css.map": "/perseus/static/css/main.258030b7.chunk.css.map",
@@ -18,8 +18,8 @@
   "entrypoints": [
     "static/js/runtime-main.11cf4bd5.js",
     "static/css/2.6402124f.chunk.css",
-    "static/js/2.590f1484.chunk.js",
+    "static/js/2.e5d5042b.chunk.js",
     "static/css/main.258030b7.chunk.css",
-    "static/js/main.7bbf2c85.chunk.js"
+    "static/js/main.c93a35e8.chunk.js"
   ]
 }
