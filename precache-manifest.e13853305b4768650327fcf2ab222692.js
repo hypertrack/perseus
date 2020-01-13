@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "af7215809dad7cd70881e2a909c40125",
+    "revision": "6383bd24ae7725ac47fd447c5f2b33de",
     "url": "/perseus/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/perseus/static/css/2.6402124f.chunk.css"
   },
   {
-    "revision": "7422924ad5835ed5d159",
+    "revision": "2bcd1f6b2e432beda9b1",
     "url": "/perseus/static/css/main.258030b7.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/perseus/static/js/2.e5d5042b.chunk.js"
   },
   {
-    "revision": "7422924ad5835ed5d159",
-    "url": "/perseus/static/js/main.c93a35e8.chunk.js"
+    "revision": "2bcd1f6b2e432beda9b1",
+    "url": "/perseus/static/js/main.90592bbe.chunk.js"
   },
   {
     "revision": "73065bad705387a39ce8",
