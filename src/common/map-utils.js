@@ -77,8 +77,25 @@ const mouseLeaveCallback = (mapRef, popupRef) => {
   popupRef.current.remove();
 };
 
-const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
-  let newLayerId = getNewLayerRemoveOldLayer(mapRef, "route");
+const getLayerName = index => primitiveName => primitiveName + index;
+
+const lineColorMap = {
+  _zero_: "#6397FF",
+  _one_: "#FF8D69"
+};
+
+const plotLine = ({
+  mapRef,
+  popupRef,
+  line,
+  getStatusTable,
+  fitBoundsOptions,
+  index
+}) => {
+  let newLayerId = getNewLayerRemoveOldLayer(
+    mapRef,
+    getLayerName(index)`route`
+  );
   mapRef.current
     .addLayer({
       id: newLayerId,
@@ -96,7 +113,7 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
         "line-cap": "round"
       },
       paint: {
-        "line-color": "#6f4cff",
+        "line-color": lineColorMap[index],
         "line-width": 8
       }
     })
@@ -105,7 +122,10 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
       padding: { top: 40, bottom: 40, left: 20, right: 20 }
     });
 
-  newLayerId = getNewLayerRemoveOldLayer(mapRef, "locationMarkers");
+  newLayerId = getNewLayerRemoveOldLayer(
+    mapRef,
+    getLayerName(index)`locationMarkers`
+  );
   mapRef.current.addLayer({
     id: newLayerId,
     type: "symbol",
@@ -148,54 +168,56 @@ const plotLine = (mapRef, popupRef, line, getStatusTable, fitBoundsOptions) => {
   );
 };
 
-const useMarkers = (
+const useMarkers = ({
   mapRef,
   popupRef,
   markersRef,
   deviceStatusMarkers,
   getStatusTable,
-  fitBoundsOptions
-) => {
-  if (markersRef.current && markersRef.current.length)
-    markersRef.current.forEach(marker => marker.remove());
-  let markerList = [];
-  const newLayerId = getNewLayerRemoveOldLayer(mapRef, "deviceStatusMarkers");
-  deviceStatusMarkers.forEach(deviceStatusMarker => {
-    const { start, end, deviceStatus, activity } = deviceStatusMarker;
-    if (start || end) {
-      const variant = utils.getIcon(activity || deviceStatus);
-      const markerElement = document.createElement("div");
-      markerElement.className = "marker-container";
+  fitBoundsOptions,
+  index
+}) => {
+  const newLayerId = getNewLayerRemoveOldLayer(
+    mapRef,
+    getLayerName(index)`deviceStatusMarkers`
+  );
+  const markerList = deviceStatusMarkers
+    .map(deviceStatusMarker => {
+      const { start, end, deviceStatus, activity } = deviceStatusMarker;
+      if (start || end) {
+        const variant = utils.getIcon(activity || deviceStatus);
+        const markerElement = document.createElement("div");
+        markerElement.className = "marker-container";
 
-      markerElement.innerHTML = `<img src=${utils.getImageSource(
-        variant
-      )} alt=${variant} class="marker-image"/>`;
+        markerElement.innerHTML = `<img src=${utils.getImageSource(
+          variant
+        )} alt=${variant} class="marker-image"/>`;
 
-      markerElement.addEventListener("mouseenter", event =>
-        mouseClickCallback(
-          event,
-          mapRef,
-          popupRef,
-          deviceStatusMarker,
-          getStatusTable
-        )
-      );
-      markerElement.addEventListener("mouseleave", () =>
-        mouseLeaveCallback(mapRef, popupRef)
-      );
-      const location =
-        start && start.location
-          ? start.location.coordinates
-          : end && end.location
-          ? end.location.coordinates
-          : [];
-      markerList.push(
-        new mapboxgl.Marker(markerElement)
+        markerElement.addEventListener("mouseenter", event =>
+          mouseClickCallback(
+            event,
+            mapRef,
+            popupRef,
+            deviceStatusMarker,
+            getStatusTable
+          )
+        );
+        markerElement.addEventListener("mouseleave", () =>
+          mouseLeaveCallback(mapRef, popupRef)
+        );
+        const location =
+          start && start.location
+            ? start.location.coordinates
+            : end && end.location
+            ? end.location.coordinates
+            : [];
+        return new mapboxgl.Marker(markerElement)
           .setLngLat(location)
-          .addTo(mapRef.current)
-      );
-    }
-  });
+          .addTo(mapRef.current);
+      }
+      return null;
+    })
+    .filter(Boolean);
 
   mapRef.current.on("mouseenter", newLayerId, event =>
     mouseEnterCallback(event, mapRef, popupRef)

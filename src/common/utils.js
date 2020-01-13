@@ -112,6 +112,41 @@ const validateInputJSON = json => {
   return !valid ? validate.errors : false;
 };
 
+const updateJson = "UPDATE_JSON";
+const addNewJson = "ADD_NEW_JSON";
+const changeJsonIndex = "UPDATE_JSON_INDEX";
+
+const actions = {
+  updateJson,
+  addNewJson,
+  changeJsonIndex
+};
+
+const actionMap = {
+  [actions.updateJson]: (state, payload) => {
+    let newState = { ...state };
+    const { index, json } = payload;
+    newState.jsons[index] = json;
+    return newState;
+  },
+  [actions.addNewJson]: (state, payload) => {
+    let newState = { ...state };
+    const { json, noPageChange } = payload;
+    newState.jsons[state.currentJson] = json;
+    const newPosition = noPageChange ? state.currentJson : 1;
+    newState.currentJson = newPosition;
+    return newState;
+  },
+  [actions.changeJsonIndex]: (state, { index }) => {
+    let newState = { ...state };
+    newState.currentJson = index;
+    return newState;
+  }
+};
+
+const baseReducer = (state, { type, ...payload }) =>
+  actionMap[type] ? actionMap[type](state, payload) : state;
+
 export default {
   parseMarker,
   getIcon,
@@ -119,5 +154,7 @@ export default {
   markersByType,
   validateInputJSON,
   valid_device_status_states,
-  getImageSource
+  getImageSource,
+  baseReducer,
+  reducerActions: actions
 };

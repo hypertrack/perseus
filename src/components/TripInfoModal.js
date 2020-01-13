@@ -13,13 +13,17 @@ import { utils } from "./../common";
 
 import "./component.css";
 
+const getDialogTitle = modify => (modify ? "Modify data" : "Add your own JSON");
+
 const TripInfoModal = ({
   trip,
   showTripModal,
   updateJson,
   hideModal,
   showModal,
-  fetchError
+  fetchError,
+  currentJsonIndex,
+  goToPageZero
 }) => {
   const [userJson, updateUserJson] = React.useState(
     JSON.stringify(trip, null, "\t")
@@ -48,11 +52,13 @@ const TripInfoModal = ({
     return Boolean(validationErrors);
   };
 
-  const handleUpdateJson = e => {
+  const handleUpdateJson = addNewJson => {
     try {
       const updatedJson = JSON.parse(userJson);
-      updateJson(updatedJson);
-      hideModal();
+      if (addNewJson)
+        updateJson({ json: updatedJson, showModal: !currentJsonIndex });
+      else
+        updateJson({ json: updatedJson, showModal: true, noPageChange: true });
     } catch (error) {
       console.error(error);
       updateErrors(error);
@@ -94,6 +100,18 @@ const TripInfoModal = ({
       }
   };
 
+  const checkPreviousJson = event => {
+    event && event.preventDefault();
+    try {
+      const updatedJson = JSON.parse(userJson);
+      if (updatedJson) updateJson(updatedJson, false, true);
+      goToPageZero();
+    } catch (error) {
+      console.error(error);
+      updateErrors(error);
+    }
+  };
+
   return (
     <>
       <Button
@@ -105,14 +123,17 @@ const TripInfoModal = ({
       </Button>
       <Dialog
         isOpen={errors || showTripModal}
-        title="Add your own JSON"
+        title={getDialogTitle(Boolean(trip))}
         onClose={hideModal}
         className="dialog"
+        isCloseButtonShown={false}
+        canEscapeKeyClose={false}
+        canOutsideClickClose={false}
       >
         <div className={Classes.DIALOG_BODY}>
           <div className="dialog-container">
             <TextArea
-              value={userJson}
+              value={userJson || ""}
               disabled={false}
               onChange={e => updateUserJson(e.target.value)}
               className={"user-summary-input"}
@@ -167,6 +188,25 @@ const TripInfoModal = ({
               onInputChange={handleFileUpload}
               inputProps={{ accept: ".json" }}
             />
+            {currentJsonIndex ? (
+              <Button
+                icon="caret-left"
+                className="add-new-json"
+                disabled={errors && errors.length}
+                onClick={checkPreviousJson}
+              >
+                Check previous JSON
+              </Button>
+            ) : (
+              <Button
+                icon="plus"
+                className="add-new-json"
+                disabled={(errors && errors.length) || !userJson}
+                onClick={() => handleUpdateJson(true)}
+              >
+                Add another JSON
+              </Button>
+            )}
             <Button
               disabled={(errors && errors.length) || !userJson}
               onClick={handleCloseModal}
@@ -176,7 +216,7 @@ const TripInfoModal = ({
             <Button
               intent={Intent.PRIMARY}
               disabled={(errors && errors.length) || !userJson}
-              onClick={handleUpdateJson}
+              onClick={() => handleUpdateJson()}
             >
               Update
             </Button>
