@@ -81,7 +81,7 @@ const TripInfoModal = ({
       const tripJSON = JSON.parse(derivedFileValue);
       updateUserJson(derivedFileValue);
       if (!validateInput(tripJSON)) {
-        updateJson(tripJSON);
+        updateJson({ json: tripJSON, showModal: true, noPageChange: true });
         hideModal();
       }
     };
