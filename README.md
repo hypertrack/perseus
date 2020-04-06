@@ -154,7 +154,7 @@ The validation of input will prohibit the input overlay to close and list out kn
 
 ## Related
 
-- [`trip_summary`](https://docs.hypertrack.com/#guides-apis-usage-trips-review-trip-summaries)
+- [`trip_summary`](https://hypertrack.com/docs/guides/track-trips-with-destination/#review-trip-summaries)
 - [`LineString`](https://tools.ietf.org/html/rfc7946#section-3.1.4)
 
 ## Credits
