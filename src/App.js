@@ -29,7 +29,7 @@ const hash =
 const coordinates = JSON.parse(locationArrays);
 
 function App() {
-  const [showTripModal, updateShowTripModal] = React.useState(true);
+  const [showTripModal, updateShowTripModal] = React.useState(false);
 
   const [json, updateJson] = React.useState(undefined);
   const [error, updateError] = React.useState(undefined);
@@ -160,7 +160,7 @@ function App() {
     dispatch({ type: utils.reducerActions.addNewJson, json, noPageChange });
     if (!fromLocalstorage)
       localStorage.setItem("previousJSON", JSON.stringify(json, null, "\t"));
-    updateShowTripModal(!showModal);
+    updateShowTripModal(false);
   };
 
   const goToPageZero = () =>

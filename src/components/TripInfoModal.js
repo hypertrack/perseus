@@ -208,14 +208,13 @@ const TripInfoModal = ({
               </Button>
             )}
             <Button
-              disabled={(errors && errors.length) || !userJson}
               onClick={handleCloseModal}
             >
               Close
             </Button>
             <Button
               intent={Intent.PRIMARY}
-              disabled={(errors && errors.length) || !userJson}
+              disabled={(errors && errors.length) || (!userJson)}
               onClick={() => handleUpdateJson()}
             >
               Update
